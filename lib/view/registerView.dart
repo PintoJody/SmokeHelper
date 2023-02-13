@@ -18,7 +18,7 @@ class _RegisterView extends State<RegisterView> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,10 +93,15 @@ class _RegisterView extends State<RegisterView> {
               ),
               const SizedBox(height: 20.0),
               MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 color: Colors.white,
                 textColor: Colors.black,
                 onPressed: () { },
-                child: Text('Envoyer'),
+                minWidth: 205.0,
+                height: 50.0,
+                child: const Text('Envoyer'),
               ),
               Container(
                 child: Column(

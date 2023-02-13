@@ -82,12 +82,34 @@ class _LoginView extends State<LoginView> {
                   color: Colors.white,
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: const Text(
+                          'Mot de passe oublié ?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
               const SizedBox(height: 20.0),
               MaterialButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 color: Colors.white,
                 textColor: Colors.black,
                 onPressed: () { },
                 child: const Text('Envoyer'),
+                minWidth: 205.0,
+                height: 50.0,
               ),
               Container(
                 child: Column(
