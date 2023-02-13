@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/view/registerView.dart';
 import 'view/home.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color.fromRGBO(85, 136, 111, 1),
       ),
-      home: const HomePage(),
+      home: RegisterView(),
     );
   }
 }
