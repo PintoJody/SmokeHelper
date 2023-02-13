@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smoke_helper/view/loginView.dart';
+import 'package:smoke_helper/view/registerView.dart';
 
-class RegisterView extends StatefulWidget {
+class LoginView extends StatefulWidget {
   @override
-  _RegisterView createState() => _RegisterView();
+  _LoginView createState() => _LoginView();
 }
 
-class _RegisterView extends State<RegisterView> {
+class _LoginView extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  bool _acceptTerms = false;
+  late String _email;
+  late String _password;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +19,10 @@ class _RegisterView extends State<RegisterView> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+            children: <Widget>[
               SizedBox(
                 height: 180,
                 child: SvgPicture.asset(
@@ -30,14 +30,22 @@ class _RegisterView extends State<RegisterView> {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 16.0),
               const Text(
-                'Inscription',
-                style: TextStyle(fontSize: 22.0, color: Colors.white),
-                textAlign: TextAlign.center,
+                'Connexion',
+                style: TextStyle(
+                  fontSize: 22.0,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: 30.0),
               TextFormField(
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Veuillez entrer une adresse email valide';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _email = value!,
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
@@ -47,16 +55,19 @@ class _RegisterView extends State<RegisterView> {
                     borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
-
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              TextFormField(
                 validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Veuillez entrer un email valide';
+                  if (value != null && value.length > 6) {
+                    return 'Le mot de passe doit contenir au moins 6 caractères';
                   }
                   return null;
                 },
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
+                onSaved: (value) => _password = value!,
                 decoration: const InputDecoration(
                   labelText: 'Mot de passe',
                   labelStyle: TextStyle(
@@ -67,36 +78,16 @@ class _RegisterView extends State<RegisterView> {
                   ),
                 ),
                 obscureText: true,
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Veuillez entrer un mot de passe';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24.0),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _acceptTerms,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _acceptTerms = value ?? false;
-                      });
-                    },
-                  ),
-                  const Text(
-                    'J’accepte les conditions générales d’autorisation.',
-                    style: TextStyle(fontSize: 10.0, color: Colors.white),
-                  ),
-                ],
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 20.0),
               MaterialButton(
                 color: Colors.white,
                 textColor: Colors.black,
                 onPressed: () { },
-                child: Text('Envoyer'),
+                child: const Text('Envoyer'),
               ),
               Container(
                 child: Column(
@@ -104,7 +95,7 @@ class _RegisterView extends State<RegisterView> {
                   children: [
                     const SizedBox(height: 30),
                     const Text(
-                      'Vous avez déjà un compte ?',
+                      'Vous n\'avez pas encore de compte ?',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -117,11 +108,11 @@ class _RegisterView extends State<RegisterView> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginView()),
+                              MaterialPageRoute(builder: (context) => RegisterView()),
                             );
                           },
                           child: const Text(
-                            'Connexion',
+                            'Inscription',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
