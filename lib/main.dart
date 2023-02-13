@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/view/loginView.dart';
 import 'package:smoke_helper/view/registerView.dart';
 import 'view/home.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color.fromRGBO(85, 136, 111, 1),
       ),
-      home: RegisterView(),
+      home: LoginView(),
     );
   }
 }
