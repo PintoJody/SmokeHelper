@@ -19,7 +19,7 @@ class _BottomNavigationTabBarViewState extends State<BottomNavigationTabBarView>
               _currentIndex = newIndex;
             });
           },
-          selectedItemColor: Colors.green,
+          selectedItemColor: const Color(0xFF55886F),
           unselectedItemColor: Colors.grey,
           type: BottomNavigationBarType.fixed,
           items: const [
