@@ -9,6 +9,40 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    //Array card Progres
+    //TODO A récupérer dans l'api
+    final List<IconData> iconsProgres = [
+      Icons.calendar_month,
+      Icons.local_fire_department,
+      Icons.euro,
+      Icons.emoji_events_outlined,
+    ];
+    final List<String> descriptionsProgres = [
+      '2 mois sans fumer',
+      '324 cigarettes évitées',
+      '102€ économisés',
+      '3 badges obtenus',
+    ];
+    //TODO voir condition dans CardWithItems car on utilise des icons pour progres mais des images pour les badges
+    final List<int> iconsColorsProgres = [
+      0xFF699BF7,
+      0xFFFF9A62,
+      0xFFFFD233,
+      0xFF4ECB71,
+    ];
+
+    //Array card Badges
+    //TODO A récupérer dans l'api
+    final List<IconData> iconsBadges = [
+      Icons.star,
+      Icons.show_chart,
+    ];
+    final List<String> descriptionsBadges = [
+      '1 mois sans fumer',
+      'A gagner 10 places dans le classement',
+    ];
+
     return MaterialApp(
       title: 'SmokeHelper',
       home: Scaffold(
@@ -27,10 +61,16 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 40.0),
                 CardWithItems(
                   title: 'Mes Progrès',
+                  icons: iconsProgres,
+                  descriptions: descriptionsProgres,
+                  iconsColors: iconsColorsProgres,
                 ),
                 const SizedBox(height: 40.0),
                 CardWithItems(
                   title: 'Mes Badges',
+                  icons: iconsBadges,
+                  descriptions: descriptionsBadges,
+                  iconsColors: iconsColorsProgres,
                 ),
                 const SizedBox(height: 40.0),
             ],

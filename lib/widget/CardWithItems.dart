@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 
 class CardWithItems extends StatefulWidget {
   final String title;
+  final List<IconData> icons;
+  final List<String> descriptions;
+  final List<int> iconsColors;
 
-  CardWithItems({required this.title});
+  CardWithItems({required this.title, required this.icons, required this.descriptions, required this.iconsColors});
 
   @override
   State<CardWithItems> createState() => _CardWithItemsState();
@@ -14,67 +17,59 @@ class CardWithItems extends StatefulWidget {
 class _CardWithItemsState extends State<CardWithItems> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          color: Colors.white
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.title,
-            style: const TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                widget.title,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF55886F)),
+              ),
             ),
           ),
-          const SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.network('https://picsum.photos/50/50'),
-                    SizedBox(height: 8.0),
-                    Center(child: Text('1')),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.network('https://picsum.photos/50/50'),
-                    SizedBox(height: 8.0),
-                    Text('2'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.network('https://picsum.photos/50/50'),
-                    SizedBox(height: 8.0),
-                    Text('3'),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.network('https://picsum.photos/50/50'),
-                    SizedBox(height: 8.0),
-                    Text('4'),
-                  ],
-                ),
-              ),
-            ],
+          SizedBox(
+            height: 90,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.icons.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    children: [
+                      Center(child:
+                        IconTheme(
+                          data: IconThemeData(size: 35.0, color: Color(widget.iconsColors[index])),
+                          child: Icon(widget.icons[index]),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 100,
+                          child: Center(
+                            child: Text(
+                              widget.descriptions[index],
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(fontSize: 10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+
+              },
+            ),
           ),
         ],
       ),
