@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/view/home.dart';
+import 'package:smoke_helper/view/settingView.dart';
 
-class HeaderNavigationView extends StatelessWidget with PreferredSizeWidget {
-  const HeaderNavigationView({Key? key}) : super(key: key);
+class HeaderNavigationView extends StatefulWidget with PreferredSizeWidget {
+  final String pageName;
+  final bool isHomePage;
+
+  HeaderNavigationView({required this.pageName, this.isHomePage = true});
+
+  @override
+  _HeaderNavigationViewState createState() => _HeaderNavigationViewState();
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
 
+class _HeaderNavigationViewState extends State<HeaderNavigationView> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -13,7 +23,21 @@ class HeaderNavigationView extends StatelessWidget with PreferredSizeWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Bonjour', style: TextStyle(fontSize: 20)),
+          if (!widget.isHomePage)
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                }else{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                }
+              },
+            ),
+          Text(widget.pageName, style: TextStyle(fontSize: 20)),
           Row(
             children: [
               IconButton(
@@ -25,7 +49,10 @@ class HeaderNavigationView extends StatelessWidget with PreferredSizeWidget {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  // action pour le deuxième bouton
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingView()),
+                  );
                 },
               ),
             ],

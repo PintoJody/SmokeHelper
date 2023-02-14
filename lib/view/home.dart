@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
       title: 'SmokeHelper',
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),
-          appBar: const HeaderNavigationView(),
+          appBar: HeaderNavigationView(pageName: "Bonjour"),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 25.0, left: 9, right: 9),
