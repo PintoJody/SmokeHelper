@@ -13,13 +13,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'SmokeHelper',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color.fromRGBO(85, 136, 111, 1),
-      ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
