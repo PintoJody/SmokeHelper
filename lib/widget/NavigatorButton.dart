@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class NavigatorButton extends StatefulWidget {
   final BuildContext parentContext;
   final String text;
@@ -20,7 +22,7 @@ class _NavigatorButtonState extends State<NavigatorButton> {
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        color: Color(0xFF55886F),
+        color: CustomTheme.greenColor,
         borderRadius: BorderRadius.circular(widget.radius),
       ),
       child: ElevatedButton(

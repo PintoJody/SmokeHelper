@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class imgWithText extends StatefulWidget {
   final String title;
   final String img;
@@ -34,7 +36,7 @@ class _imgWithTextState extends State<imgWithText> {
             child: Text(
               widget.title,
               style: const TextStyle(
-                color: Colors.white,
+                color: CustomTheme.bgWhiteColor,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -51,7 +53,7 @@ class _imgWithTextState extends State<imgWithText> {
             child: Text(
               widget.detail,
               style: const TextStyle(
-                color: Colors.white,
+                color: CustomTheme.bgWhiteColor,
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
               ),

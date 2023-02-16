@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class CardButton extends StatefulWidget {
   final String username;
   final String routeName;
@@ -38,7 +40,7 @@ class _CardButtonState extends State<CardButton> {
                           style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF545454)
+                              color: CustomTheme.greyColor
                           )
                       ),
                       const SizedBox(height: 8.0),
@@ -47,7 +49,7 @@ class _CardButtonState extends State<CardButton> {
                         style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF55886F),
+                          color: CustomTheme.greenColor,
                         ),
                       ),
                     ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/theme/theme.dart';
+
 
 class HeaderNavigationView extends StatefulWidget with PreferredSizeWidget {
   final String pageName;
@@ -18,7 +20,7 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFF55886F),
+      backgroundColor: CustomTheme.greenColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

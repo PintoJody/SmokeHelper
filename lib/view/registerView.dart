@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smoke_helper/theme/theme.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _RegisterView extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFF55886F),
+      backgroundColor: CustomTheme.greenColor,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -34,7 +35,7 @@ class _RegisterView extends State<RegisterView> {
                 const SizedBox(height: 16.0),
                 const Text(
                   'Inscription',
-                  style: TextStyle(fontSize: 22.0, color: Colors.white),
+                  style: TextStyle(fontSize: 22.0, color: CustomTheme.bgWhiteColor),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24.0),
@@ -42,10 +43,10 @@ class _RegisterView extends State<RegisterView> {
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     labelStyle: TextStyle(
-                      color: Colors.white,
+                      color: CustomTheme.bgWhiteColor,
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                     ),
                   ),
 
@@ -61,10 +62,10 @@ class _RegisterView extends State<RegisterView> {
                   decoration: const InputDecoration(
                     labelText: "Nom d\'utilisateur",
                     labelStyle: TextStyle(
-                      color: Colors.white,
+                      color: CustomTheme.bgWhiteColor,
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                     ),
                   ),
 
@@ -80,10 +81,10 @@ class _RegisterView extends State<RegisterView> {
                   decoration: const InputDecoration(
                     labelText: 'Mot de passe',
                     labelStyle: TextStyle(
-                      color: Colors.white,
+                      color: CustomTheme.bgWhiteColor,
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                     ),
                   ),
                   obscureText: true,
@@ -107,7 +108,7 @@ class _RegisterView extends State<RegisterView> {
                     ),
                     const Text(
                       'J’accepte les conditions générales d’autorisation.',
-                      style: TextStyle(fontSize: 10.0, color: Colors.white),
+                      style: TextStyle(fontSize: 10.0, color: CustomTheme.bgWhiteColor),
                     ),
                   ],
                 ),
@@ -117,12 +118,12 @@ class _RegisterView extends State<RegisterView> {
                     height: 50.0,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                        backgroundColor: MaterialStateProperty.all(CustomTheme.bgWhiteColor),
                       ),
                       onPressed: (){},
                       child: const Text(
                         "Envoyer",
-                        style: TextStyle(color: Color.fromRGBO(95,90,90,1)),
+                        style: TextStyle(color: CustomTheme.greyColor),
                       ),
                     )
                 ),
@@ -134,7 +135,7 @@ class _RegisterView extends State<RegisterView> {
                       const Text(
                         'Vous avez déjà un compte ?',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: CustomTheme.bgWhiteColor,
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -148,7 +149,7 @@ class _RegisterView extends State<RegisterView> {
                             child: const Text(
                               'Connexion',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: CustomTheme.bgWhiteColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -156,7 +157,7 @@ class _RegisterView extends State<RegisterView> {
                           const SizedBox(width: 5),
                           const Icon(
                             Icons.arrow_forward_ios,
-                            color: Colors.white,
+                            color: CustomTheme.bgWhiteColor,
                             size: 16,
                           ),
                         ],

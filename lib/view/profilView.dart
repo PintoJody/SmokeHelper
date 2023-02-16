@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/widget/NavigatorButton.dart';
 
+import '../theme/theme.dart';
 import '../widget/BottomNavigationTabBarView.dart';
 import '../widget/HeaderNavigationView.dart';
 
@@ -17,7 +18,7 @@ class _ProfilViewState extends State<ProfilView> {
     return MaterialApp(
         title: 'SmokeHelper',
         home: Scaffold(
-            backgroundColor: const Color(0xFFF5F1F2),
+            backgroundColor: CustomTheme.bgWhiteColor,
             appBar: HeaderNavigationView(pageName: "Mon Profil", parentContext: context, isHomePage: false),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -40,11 +41,11 @@ class _ProfilViewState extends State<ProfilView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("JohnDoe", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Color(0xFF545454))),
+                                Text("JohnDoe", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: CustomTheme.greyColor)),
                                 const SizedBox(height: 5.0),
-                                Text("4 badges", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF55886F))),
+                                Text("4 badges", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CustomTheme.greenColor)),
                                 const SizedBox(height: 2.0),
-                                Text("Membre depuis le 16/02/2023", style: TextStyle(fontSize: 8.0, color: Color(0xFF545454))),
+                                Text("Membre depuis le 16/02/2023", style: TextStyle(fontSize: 8.0, color: CustomTheme.greyColor)),
                                 const SizedBox(height: 5.0),
                               ],
                             )
