@@ -57,6 +57,25 @@ class _RegisterView extends State<RegisterView> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 24.0),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "Nom d\'utilisateur",
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return "Veuillez entrer un nom d\'utilisateur";
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
