@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:smoke_helper/widget/BottomNavigationTabBarView.dart';
+import 'package:smoke_helper/widget/CardButton.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
 
 class SettingView extends StatefulWidget {
@@ -18,7 +19,8 @@ class _SettingViewState extends State<SettingView> {
         home: Scaffold(
             backgroundColor: const Color(0xFFF5F1F2),
             appBar: HeaderNavigationView(pageName: "Préférences", isHomePage: false),
-            body: Text('Page préférence'),
+            body: const CardButton(username: "JohnDoe"), //TODO => recupérer username dans bdd
+
             bottomNavigationBar: const BottomNavigationTabBarView()
         )
     );

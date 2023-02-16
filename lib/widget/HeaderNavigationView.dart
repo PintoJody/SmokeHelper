@@ -23,11 +23,11 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (!widget.isHomePage)
+          if (!widget.isHomePage) //If not the home page, add a previous link.
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                if (Navigator.of(context).canPop()) {
+                if (Navigator.of(context).canPop()) { //Check if there are forward navigations
                   Navigator.of(context).pop();
                 }else{
                   Navigator.push(
