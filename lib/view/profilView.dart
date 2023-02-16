@@ -13,6 +13,14 @@ class ProfilView extends StatefulWidget {
 }
 
 class _ProfilViewState extends State<ProfilView> {
+
+  int _currentIndex = 0;
+  //TODO CREER UN WIDGET QUI PREND PARAM DIFFERENTS SI BADGE VERROUILLE OU NON
+  List<Widget> _widgets = [
+    Text("Vous avez appuyé sur le bouton 1"),
+    Text("Vous avez appuyé sur le bouton 2"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,6 +65,38 @@ class _ProfilViewState extends State<ProfilView> {
                     ),
                   ),
                 ),
+
+
+                //TODO DESIGN DES BOUTTONS + AFFICHAGE DES WIDGETS CORRESPONDANTS
+                // Center(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       ElevatedButton(
+                //         onPressed: () {
+                //           setState(() {
+                //             _currentIndex = 0;
+                //           });
+                //         },
+                //         child: Text("Bouton 1"),
+                //       ),
+                //       ElevatedButton(
+                //         onPressed: () {
+                //           setState(() {
+                //             _currentIndex = 1;
+                //           });
+                //         },
+                //         child: Text("Bouton 2"),
+                //       ),
+                //       SizedBox(height: 20),
+                //       IndexedStack(
+                //         index: _currentIndex,
+                //         children: _widgets,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
 
               ],
             ),
