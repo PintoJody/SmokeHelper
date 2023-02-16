@@ -16,11 +16,9 @@ class _CardButtonState extends State<CardButton> {
       onTap: () {
         //TODO navigation vers le profil
       },
-      child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, left: 5.0, right: 5.0),
-        child: SizedBox(
+      child: SizedBox(
           height: 100.0,
-          width: 390.0,
+          width: 400.0,
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -56,7 +54,6 @@ class _CardButtonState extends State<CardButton> {
                   const Icon(Icons.arrow_forward), // icône de flèche droite à droite du bouton
                 ],
               ),
-            ),
           ),
         ),
       ),
