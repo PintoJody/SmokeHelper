@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smoke_helper/view/loginView.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -144,7 +143,7 @@ class _RegisterView extends State<RegisterView> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, '/loginView');
+                              Navigator.pushNamed(context, '/LoginView');
                             },
                             child: const Text(
                               'Connexion',

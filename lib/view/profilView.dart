@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/widget/NavigatorButton.dart';
 
 import '../widget/BottomNavigationTabBarView.dart';
 import '../widget/HeaderNavigationView.dart';
@@ -18,7 +19,46 @@ class _ProfilViewState extends State<ProfilView> {
         home: Scaffold(
             backgroundColor: const Color(0xFFF5F1F2),
             appBar: HeaderNavigationView(pageName: "Mon Profil", parentContext: context, isHomePage: false),
-            body: Text("Page Profil"),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 400.0,
+                  height: 250.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(35.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.verified_user, size: 45),
+                            const SizedBox(width: 28.0),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("JohnDoe", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Color(0xFF545454))),
+                                const SizedBox(height: 5.0),
+                                Text("4 badges", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF55886F))),
+                                const SizedBox(height: 2.0),
+                                Text("Membre depuis le 16/02/2023", style: TextStyle(fontSize: 8.0, color: Color(0xFF545454))),
+                                const SizedBox(height: 5.0),
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 50.0),
+                        NavigatorButton(parentContext: context, text: "Modifier profil", width: 150, height: 35), //Widget Button
+                      ],
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
             bottomNavigationBar: const BottomNavigationTabBarView()
         )
     );

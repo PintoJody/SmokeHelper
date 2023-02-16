@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smoke_helper/view/profilView.dart';
 
 class CardButton extends StatefulWidget {
   final String username;
   final String routeName;
-  final parentContext;
+  final BuildContext parentContext;
 
   const CardButton({required this.username, required this.routeName, required this.parentContext});
 
@@ -28,7 +27,7 @@ class _CardButtonState extends State<CardButton> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.verified_user), // icône à gauche
+                  const Icon(Icons.verified_user, size: 45),
                   const SizedBox(width: 28.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

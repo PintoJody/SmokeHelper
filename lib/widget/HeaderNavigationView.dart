@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smoke_helper/view/home.dart';
-import 'package:smoke_helper/view/settingView.dart';
 
 class HeaderNavigationView extends StatefulWidget with PreferredSizeWidget {
   final String pageName;
   final bool isHomePage;
-  final parentContext;
+  final BuildContext parentContext;
 
   HeaderNavigationView({required this.pageName, required this.parentContext, this.isHomePage = true});
 
