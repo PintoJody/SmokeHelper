@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/view/loginView.dart';
+import 'package:smoke_helper/view/profilView.dart';
 import 'package:smoke_helper/view/registerView.dart';
+import 'package:smoke_helper/view/settingView.dart';
 import 'view/home.dart';
 
 void main() {
@@ -16,7 +18,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SmokeHelper',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/LoginView': (context) => LoginView(),
+        '/RegisterView': (context) => RegisterView(),
+        '/SettingView': (context) => SettingView(),
+        '/ProfilView': (context) => ProfilView(),
+      },
     );
   }
 }

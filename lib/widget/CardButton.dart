@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class CardButton extends StatefulWidget {
   final String username;
+  final String routeName;
+  final BuildContext parentContext;
 
-  const CardButton({required this.username});
+  const CardButton({required this.username, required this.routeName, required this.parentContext});
 
   @override
   State<CardButton> createState() => _CardButtonState();
@@ -14,7 +18,7 @@ class _CardButtonState extends State<CardButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO navigation vers le profil
+        Navigator.pushNamed(widget.parentContext, widget.routeName);
       },
       child: SizedBox(
           height: 100.0,
@@ -25,7 +29,7 @@ class _CardButtonState extends State<CardButton> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.verified_user), // icône à gauche
+                  const Icon(Icons.verified_user, size: 45),
                   const SizedBox(width: 28.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +40,7 @@ class _CardButtonState extends State<CardButton> {
                           style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF545454)
+                              color: CustomTheme.greyColor
                           )
                       ),
                       const SizedBox(height: 8.0),
@@ -45,7 +49,7 @@ class _CardButtonState extends State<CardButton> {
                         style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF55886F),
+                          color: CustomTheme.greenColor,
                         ),
                       ),
                     ],

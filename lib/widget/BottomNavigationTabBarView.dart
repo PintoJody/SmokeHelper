@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class BottomNavigationTabBarView extends StatefulWidget {
   const BottomNavigationTabBarView({Key? key}) : super(key: key);
 
@@ -19,8 +21,8 @@ class _BottomNavigationTabBarViewState extends State<BottomNavigationTabBarView>
               _currentIndex = newIndex;
             });
           },
-          selectedItemColor: const Color(0xFF55886F),
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: CustomTheme.greenColor,
+          unselectedItemColor: CustomTheme.greyColor,
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
@@ -43,41 +45,3 @@ class _BottomNavigationTabBarViewState extends State<BottomNavigationTabBarView>
       );
     }
   }
-
-
-
-// class BottomNavigationTabBarView extends State<BottomNavigationTabBarView> {
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return bottomNavigationTabBarView();
-//   }
-//
-//   BottomNavigationBar bottomNavigationTabBarView() {
-//     const iconSize = 25.0;
-//     return BottomNavigationBar(
-//
-//         selectedItemColor: Colors.green,
-//         unselectedItemColor: Colors.grey,
-//         type: BottomNavigationBarType.fixed,
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             label: 'Accueil',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.book),
-//             label: 'Journal',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.bar_chart),
-//             label: 'Progrès',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.emoji_events),
-//             label: 'Classement',
-//           ),
-//         ]
-//     );
-//   }
-// }

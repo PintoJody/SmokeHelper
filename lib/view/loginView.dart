@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smoke_helper/view/registerView.dart';
+import 'package:smoke_helper/theme/theme.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _LoginView extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFF55886F),
+      backgroundColor: CustomTheme.greenColor,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -121,7 +121,7 @@ class _LoginView extends State<LoginView> {
                     },
                     child: const Text(
                         "Envoyer",
-                        style: TextStyle(color: Color.fromRGBO(95,90,90,1)),
+                        style: TextStyle(color: CustomTheme.greyColor),
                     ),
                   )
                 ),
@@ -142,10 +142,7 @@ class _LoginView extends State<LoginView> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => RegisterView()),
-                              );
+                              Navigator.pushNamed(context, '/RegisterView');
                             },
                             child: const Text(
                               'Inscription',

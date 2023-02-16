@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class CardWithItems extends StatefulWidget {
   final String title;
   final List<IconData> icons;
@@ -29,7 +31,7 @@ class _CardWithItemsState extends State<CardWithItems> {
               alignment: Alignment.topLeft,
               child: Text(
                 widget.title,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF55886F)),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: CustomTheme.greenColor),
               ),
             ),
           ),
