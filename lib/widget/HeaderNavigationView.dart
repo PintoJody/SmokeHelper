@@ -5,8 +5,9 @@ import 'package:smoke_helper/view/settingView.dart';
 class HeaderNavigationView extends StatefulWidget with PreferredSizeWidget {
   final String pageName;
   final bool isHomePage;
+  final parentContext;
 
-  HeaderNavigationView({required this.pageName, this.isHomePage = true});
+  HeaderNavigationView({required this.pageName, required this.parentContext, this.isHomePage = true});
 
   @override
   _HeaderNavigationViewState createState() => _HeaderNavigationViewState();
@@ -27,13 +28,10 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                if (Navigator.of(context).canPop()) { //Check if there are forward navigations
-                  Navigator.of(context).pop();
+                if (Navigator.of(widget.parentContext).canPop()) { //Check if there are forward navigations
+                  Navigator.of(widget.parentContext).pop();
                 }else{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
+                  Navigator.pushNamed(widget.parentContext, '/');
                 }
               },
             ),
@@ -49,10 +47,7 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SettingView()),
-                  );
+                  Navigator.pushNamed(widget.parentContext, '/SettingView');
                 },
               ),
             ],

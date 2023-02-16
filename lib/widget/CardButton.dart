@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/view/profilView.dart';
 
 class CardButton extends StatefulWidget {
   final String username;
+  final String routeName;
+  final parentContext;
 
-  const CardButton({required this.username});
+  const CardButton({required this.username, required this.routeName, required this.parentContext});
 
   @override
   State<CardButton> createState() => _CardButtonState();
@@ -14,7 +17,7 @@ class _CardButtonState extends State<CardButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO navigation vers le profil
+        Navigator.pushNamed(widget.parentContext, widget.routeName);
       },
       child: SizedBox(
           height: 100.0,

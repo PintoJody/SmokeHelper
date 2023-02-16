@@ -144,10 +144,7 @@ class _RegisterView extends State<RegisterView> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => LoginView()),
-                              );
+                              Navigator.pushNamed(context, '/loginView');
                             },
                             child: const Text(
                               'Connexion',

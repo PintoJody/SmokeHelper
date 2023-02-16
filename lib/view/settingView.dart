@@ -18,13 +18,13 @@ class _SettingViewState extends State<SettingView> {
         title: 'SmokeHelper',
         home: Scaffold(
             backgroundColor: const Color(0xFFF5F1F2),
-            appBar: HeaderNavigationView(pageName: "Préférences", isHomePage: false),
+            appBar: HeaderNavigationView(pageName: "Préférences", parentContext: context, isHomePage: false),
             body: Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0,left: 5.0, right: 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CardButton(username: "JohnDoe"), //TODO => recupérer username dans bdd
+                  CardButton(username: "JohnDoe", routeName: "/ProfilView", parentContext: context), //TODO => recupérer username dans bdd
                   const SizedBox(height: 35.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -66,8 +66,6 @@ class _SettingViewState extends State<SettingView> {
                       ],
                     ),
                   ),
-
-
 
                 ],
               ),

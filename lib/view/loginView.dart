@@ -142,10 +142,7 @@ class _LoginView extends State<LoginView> {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => RegisterView()),
-                              );
+                              Navigator.pushNamed(context, '/registerView');
                             },
                             child: const Text(
                               'Inscription',
