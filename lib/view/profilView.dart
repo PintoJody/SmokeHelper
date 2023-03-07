@@ -74,7 +74,7 @@ class _ProfilViewState extends State<ProfilView> {
                             ],
                           ),
                           const SizedBox(height: 50.0),
-                          NavigatorButton(parentContext: context, text: "Modifier profil", width: 140, height: 35, textSize: 14.0), //Widget Button
+                          NavigatorButton(parentContext: context, path: "/ProfilFormView", text: "Modifier profil", width: 140, height: 35, textSize: 14.0), //Widget Button
                         ],
                       ),
                     ),

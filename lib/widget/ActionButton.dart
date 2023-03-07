@@ -9,8 +9,17 @@ class ActionButton extends StatefulWidget {
   final double radius;
   final Color fontColor;
   final double fontSize;
+  final VoidCallback? onPressed;
 
-  ActionButton({required this.textButton, this.width = 20.0, this.height = 10.0, this.radius = 16.0, this.fontColor = CustomTheme.bgWhiteColor, this.fontSize = 14});
+  ActionButton({
+    required this.textButton,
+    this.width = 20.0,
+    this.height = 10.0,
+    this.radius = 16.0,
+    this.fontColor = CustomTheme.bgWhiteColor,
+    this.fontSize = 14,
+    this.onPressed,
+  });
 
   @override
   State<ActionButton> createState() => _ActionButtonState();
@@ -20,9 +29,7 @@ class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        //TODO ACTION
-      },
+      onPressed: widget.onPressed,
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(CustomTheme.greenColor),
           fixedSize: MaterialStateProperty.all<Size>(Size(widget.width, widget.height)),
