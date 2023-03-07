@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/view/loginView.dart';
 import 'package:smoke_helper/view/profilView.dart';
+import 'package:smoke_helper/view/profilFormView.dart';
 import 'package:smoke_helper/view/registerView.dart';
 import 'package:smoke_helper/view/settingView.dart';
 import 'view/home.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/RegisterView': (context) => RegisterView(),
         '/SettingView': (context) => SettingView(),
         '/ProfilView': (context) => ProfilView(),
+        '/ProfilFormView': (context) => ProfilFormView(),
       },
     );
   }

@@ -10,8 +10,9 @@ class NavigatorButton extends StatefulWidget {
   final double width;
   final double height;
   final double radius;
+  final String path;
 
-  const NavigatorButton({required this.parentContext, required this.text, this.textSize = 12.0, this.bgColor = CustomTheme.greenColor, this.width = 100.0, this.height = 25.0, this.radius = 15.0});
+  const NavigatorButton({required this.parentContext, this.path = "/", required this.text, this.textSize = 12.0, this.bgColor = CustomTheme.greenColor, this.width = 100.0, this.height = 25.0, this.radius = 15.0});
 
   @override
   State<NavigatorButton> createState() => _NavigatorButtonState();
@@ -29,7 +30,7 @@ class _NavigatorButtonState extends State<NavigatorButton> {
       ),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.pushNamed(widget.parentContext, '/');
+          Navigator.pushNamed(widget.parentContext, widget.path);
         },
         child: Text(
             widget.text,
