@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
 
+import '../view/home.dart';
+import '../view/settingView.dart';
 
 class HeaderNavigationView extends StatefulWidget with PreferredSizeWidget {
   final String pageName;
@@ -30,8 +32,8 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
               onPressed: () {
                 if (Navigator.of(widget.parentContext).canPop()) { //Check if there are forward navigations
                   Navigator.of(widget.parentContext).pop();
-                }else{
-                  Navigator.pushNamed(widget.parentContext, '/');
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())); //Replace with your home page widget
                 }
               },
             ),
@@ -47,7 +49,7 @@ class _HeaderNavigationViewState extends State<HeaderNavigationView> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.pushNamed(widget.parentContext, '/SettingView');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SettingView())); //Replace with your setting view widget
                 },
               ),
             ],
