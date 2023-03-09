@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),
-          appBar: HeaderNavigationView(pageName: "Bonjour", parentContext: context),
+          appBar: HeaderNavigationView(pageName: "SmokeHelper", parentContext: context),
           body: [
             HomePage(),
             LogBookView(),

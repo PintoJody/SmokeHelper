@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:smoke_helper/widget/BottomNavigationTabBarView.dart';
 import 'package:smoke_helper/widget/CardButton.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
 
