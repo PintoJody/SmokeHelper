@@ -130,8 +130,7 @@ class _ProfilViewState extends State<ProfilView> {
                 ],
               ),
             ),
-            bottomNavigationBar: const BottomNavigationTabBarView()
-        )
+        ),
     );
   }
 }

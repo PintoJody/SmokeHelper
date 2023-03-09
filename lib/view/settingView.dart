@@ -72,7 +72,6 @@ class _SettingViewState extends State<SettingView> {
                 ],
               ),
             ),
-            bottomNavigationBar: const BottomNavigationTabBarView()
         )
     );
   }
