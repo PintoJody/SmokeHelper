@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
+import 'package:smoke_helper/view/logBookFormView.dart';
 import 'package:smoke_helper/widget/ActionButton.dart';
 import 'package:smoke_helper/widget/CardConsumption.dart';
 import 'package:smoke_helper/widget/CardLogBook.dart';
+
+import '../widget/NavigatorButton.dart';
 
 class LogBookView extends StatefulWidget {
   const LogBookView({Key? key}) : super(key: key);
@@ -55,14 +58,7 @@ class _LogBookViewState extends State<LogBookView> {
                     fontSize: 18.0,
                   ),
                 ),
-                ActionButton(
-                    textButton: "Ajouter une carte",
-                    width: 130,
-                    fontSize: 12,
-                    onPressed: (){
-                      //TODO
-                    },
-                )
+                NavigatorButton(parentContext: context, path: "/LogBookFormView", text: "Ajouter une carte", width: 140, height: 35, textSize: 12.0),
               ],
             ),
             const SizedBox(height: 40),
