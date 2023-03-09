@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 import '../widget/ActionButton.dart';
-import '../widget/BottomNavigationTabBarView.dart';
 import '../widget/HeaderNavigationView.dart';
 
 class ProfilFormView extends StatefulWidget {

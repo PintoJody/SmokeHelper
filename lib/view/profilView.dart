@@ -3,7 +3,6 @@ import 'package:smoke_helper/widget/CardBadge.dart';
 import 'package:smoke_helper/widget/NavigatorButton.dart';
 
 import '../theme/theme.dart';
-import '../widget/BottomNavigationTabBarView.dart';
 import '../widget/HeaderNavigationView.dart';
 
 class ProfilView extends StatefulWidget {
