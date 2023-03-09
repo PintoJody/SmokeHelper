@@ -35,19 +35,35 @@ class _LogBookViewState extends State<LogBookView> {
                   textButton: "Modifier",
                   width: 80,
                   fontSize: 12,
+                  onPressed: (){
+                    //TODO
+                  },
                 ),
               ],
             ),
             SizedBox(height: 40),
             CardConsumption(nbCigarette: "10", nbPerPack: "20", nbPrice: "15"),
             const SizedBox(height: 50),
-            const Text(
-              'Journal de bord',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: CustomTheme.greenColor,
-                fontSize: 18.0,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Journal de bord',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: CustomTheme.greenColor,
+                    fontSize: 18.0,
+                  ),
+                ),
+                ActionButton(
+                    textButton: "Ajouter une carte",
+                    width: 130,
+                    fontSize: 12,
+                    onPressed: (){
+                      //TODO
+                    },
+                )
+              ],
             ),
             const SizedBox(height: 40),
             CardLogBook(dateTime: "Vendredi 27 Janvier 2023", nbCigarette: "4", nbFeel: "5"),
