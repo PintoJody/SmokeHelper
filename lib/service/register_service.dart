@@ -1,10 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import '../model/UserModel.dart';
 
+class RegisterResponse {
+  bool success;
+  String data;
+
+  RegisterResponse({required this.success, required this.data});
+}
+
 class RegisterService {
-  static Future<void> register(User user) async {
+  static Future<RegisterResponse> register(User user) async {
     final url = Uri.parse('https://smokehelperapi.hop.sh/users/register');
     final request = http.MultipartRequest('POST', url);
     request.headers['Content-Type'] = 'multipart/form-data';
@@ -15,13 +22,15 @@ class RegisterService {
     try {
       final response = await request.send();
       final responseData = await response.stream.transform(utf8.decoder).join();
+
       if (response.statusCode == 200) {
-        print(responseData);
+        return RegisterResponse(success: true, data: responseData);
       } else {
-        print("Erreur lors de l'inscription");
+        return RegisterResponse(success: false, data: responseData);
       }
     } catch (e) {
       print("Erreur lors de la connexion au serveur : $e");
+      return RegisterResponse(success: false, data: e.toString());
     }
   }
 }

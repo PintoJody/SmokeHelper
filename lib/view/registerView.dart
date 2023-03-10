@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smoke_helper/theme/theme.dart';
@@ -15,8 +17,41 @@ class _RegisterView extends State<RegisterView> {
   bool _acceptTerms = false;
   User _user = User(email: '', username: '', password: '');
 
+  //Stock variable error
+  String? emailError;
+  String? passwordError;
+  String? usernameError;
+
   Future<void> _register() async {
-    await RegisterService.register(_user);
+    final responseJson = await RegisterService.register(_user);
+
+    //Format data
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if (responseJson.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Inscription réussie ! Vous allez recevoir un mail de confirmation à l\'adresse renseignée.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: CustomTheme.successColor,
+        ),
+      );
+      Navigator.pushNamed(context, "/LoginView");
+    }else{
+      setState(() {
+        emailError = responseData['email'];
+        passwordError = responseData['password'];
+        usernameError = responseData['username'];
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Echec de l\'inscription ! Veuillez réessayer plus tard.'),
+          duration: Duration(seconds: 2),
+          backgroundColor: CustomTheme.errorColor,
+        ),
+      );
+    }
   }
 
   @override
@@ -57,10 +92,11 @@ class _RegisterView extends State<RegisterView> {
                       borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                     ),
                   ),
-
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Veuillez entrer un email valide';
+                      return "Veuillez entrer une adresse mail";
+                    }else if (emailError != null) {
+                      return emailError;
                     }
                     return null;
                   },
@@ -81,6 +117,8 @@ class _RegisterView extends State<RegisterView> {
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return "Veuillez entrer un nom d\'utilisateur";
+                    }else if (usernameError != null){
+                      return usernameError;
                     }
                     return null;
                   },
@@ -100,7 +138,9 @@ class _RegisterView extends State<RegisterView> {
                   obscureText: true,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Veuillez entrer un mot de passe';
+                      return "Veuillez entrer un mot de passe";
+                    }else if (passwordError != null) {
+                      return passwordError;
                     }
                     return null;
                   },
@@ -131,11 +171,20 @@ class _RegisterView extends State<RegisterView> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(CustomTheme.bgWhiteColor),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         if(_formKey.currentState?.validate() ?? false){
-                          _formKey.currentState?.save();
-                          _register();
-                          print(_user.username);
+                          if(_acceptTerms){
+                            _formKey.currentState?.save();
+                            _register();
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Vous devez accepter les conditions d\'utilisation pour vous inscrire.'),
+                                duration: Duration(seconds: 3),
+                                backgroundColor: CustomTheme.warningColor,
+                              ),
+                            );
+                          }
                         }
                       },
                       child: const Text(
