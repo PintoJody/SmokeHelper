@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smoke_helper/theme/theme.dart';
 
+import '../model/UserModel.dart';
+import '../service/register_service.dart';
+
 class RegisterView extends StatefulWidget {
   @override
   _RegisterView createState() => _RegisterView();
@@ -10,6 +13,11 @@ class RegisterView extends StatefulWidget {
 class _RegisterView extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
   bool _acceptTerms = false;
+  User _user = User(email: '', username: '', password: '');
+
+  Future<void> _register() async {
+    await RegisterService.register(_user);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +64,7 @@ class _RegisterView extends State<RegisterView> {
                     }
                     return null;
                   },
+                  onSaved: (value) => _user.email = value!,
                 ),
                 const SizedBox(height: 24.0),
                 TextFormField(
@@ -75,6 +84,7 @@ class _RegisterView extends State<RegisterView> {
                     }
                     return null;
                   },
+                  onSaved: (value) => _user.username = value!,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
@@ -94,6 +104,7 @@ class _RegisterView extends State<RegisterView> {
                     }
                     return null;
                   },
+                  onSaved: (value) => _user.password = value!,
                 ),
                 const SizedBox(height: 24.0),
                 Row(
@@ -120,7 +131,13 @@ class _RegisterView extends State<RegisterView> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(CustomTheme.bgWhiteColor),
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        if(_formKey.currentState?.validate() ?? false){
+                          _formKey.currentState?.save();
+                          _register();
+                          print(_user.username);
+                        }
+                      },
                       child: const Text(
                         "Envoyer",
                         style: TextStyle(color: CustomTheme.greyColor),
