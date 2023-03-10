@@ -46,14 +46,14 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Mon compte',
                         style: TextStyle(
                             color: CustomTheme.greenColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 22.0),
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       TextFormField(
                         controller: _pseudoController,
                         decoration: InputDecoration(

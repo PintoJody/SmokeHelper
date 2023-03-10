@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'SmokeHelper',
       debugShowCheckedModeBanner: false,
-      // initialRoute: '/LoginView',
+      initialRoute: '/LoginView',
       routes: {
         // '/': (context) => HomePage(),
         '/LoginView': (context) => LoginView(),
