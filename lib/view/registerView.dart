@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smoke_helper/service/auth_token_service.dart';
 import 'package:smoke_helper/theme/theme.dart';
 
 import '../model/UserModel.dart';
@@ -13,6 +14,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterView extends State<RegisterView> {
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool _acceptTerms = false;
   User _user = User(email: '', username: '', password: '');
@@ -37,7 +39,17 @@ class _RegisterView extends State<RegisterView> {
           backgroundColor: CustomTheme.successColor,
         ),
       );
+
+      // Redirection
       Navigator.pushNamed(context, "/LoginView");
+
+      //TODO a faire dans la connexion A la place
+      // // Stock User Id
+      // await _authService.setAuthToken(responseData["_id"]);
+      // // Redirection main app page
+      // await Future.delayed(Duration(seconds: 1));
+      // Navigator.popUntil(context, (route) => route.isFirst);
+
     }else{
       setState(() {
         emailError = responseData['email'];
