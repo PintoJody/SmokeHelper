@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smoke_helper/service/auth_token_service.dart';
 import 'package:smoke_helper/theme/theme.dart';
+
+import '../model/UserModel.dart';
+import '../service/login_service.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -8,9 +14,65 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginView extends State<LoginView> {
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
+
+  User _user = User(email: '', username: '', password: '', usernameEmail: '');
+
+  //Stock variable error
+  String? passwordError;
+  String? emailError;
+  String? usernameError;
+  String? usernameEmailError;
+  String? test;
+
+  Future<void> _login() async {
+    print(_user.usernameEmail);
+    print(_user.password);
+
+    final responseJson = await LoginService.login(_user);
+
+    //Format data
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if (responseJson.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vous êtes connecté ! Redirection...'),
+          duration: Duration(seconds: 2),
+          backgroundColor: CustomTheme.successColor,
+        ),
+      );
+
+      //TODO AJOUTER CONDITION SI USER NON VERIF => INPUT CONFIRM TOKEN
+      print(responseData);
+      // // Stock User Id
+      await _authService.setAuthToken(responseData["_id"]);
+
+      //TODO REDIRECTION
+      test = await _authService.getAuthToken();
+      print(test);
+      // // Redirection main app page
+      // await Future.delayed(Duration(seconds: 1));
+      // Navigator.popUntil(context, (route) => route.isFirst);
+
+    }else{
+      setState(() {
+        emailError = responseData['email'];
+        passwordError = responseData['password'];
+        usernameError = responseData['username'];
+        usernameEmailError = responseData['usernameEmail'];
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Echec de la connexion'),
+          duration: Duration(seconds: 2),
+          backgroundColor: CustomTheme.errorColor,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,36 +103,31 @@ class _LoginView extends State<LoginView> {
                 ),
                 const SizedBox(height: 30.0),
                 TextFormField(
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Veuillez entrer une adresse email valide';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _email = value!,
                   decoration: const InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Email ou pseudo',
                     labelStyle: TextStyle(
-                      color: Colors.white,
+                      color: CustomTheme.bgWhiteColor,
                     ),
                     hintText: "exemple@gmail.com",
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                     ),
                   ),
                   style: const TextStyle(
                     color: Colors.white,
                   ),
-                ),
-                const SizedBox(height: 20.0),
-                TextFormField(
                   validator: (value) {
-                    if (value != null && value.length > 6) {
-                      return 'Le mot de passe doit contenir au moins 6 caractères';
+                    if (value?.isEmpty ?? true) {
+                      return "Vous devez remplir ce champ";
+                    }else if (usernameEmailError != null) {
+                      return usernameEmailError;
                     }
                     return null;
                   },
-                  onSaved: (value) => _password = value!,
+                  onSaved: (value) => _user.usernameEmail = value!,
+                ),
+                const SizedBox(height: 20.0),
+                TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Mot de passe',
                     labelStyle: TextStyle(
@@ -85,6 +142,15 @@ class _LoginView extends State<LoginView> {
                   style: const TextStyle(
                     color: Colors.white,
                   ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return "Veuillez entrer un mot de passe";
+                    }else if (passwordError != null) {
+                      return passwordError;
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _user.password = value!,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
@@ -105,25 +171,31 @@ class _LoginView extends State<LoginView> {
                     ),
                 const SizedBox(height: 20.0),
                 SizedBox(
-                  width: 200.0,
-                  height: 50.0,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                    onPressed: (){
-                      if(_formKey.currentState!.validate()){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Vous êtes connecté ! Redirection ..."))
-                        );
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      }
-                    },
-                    child: const Text(
+                    width: 200.0,
+                    height: 50.0,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(CustomTheme.bgWhiteColor),
+                      ),
+                      onPressed: () {
+                        if(_formKey.currentState?.validate() ?? false){
+                          _formKey.currentState?.save();
+                          _login();
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Problème lors de la connexion.'),
+                              duration: Duration(seconds: 3),
+                              backgroundColor: CustomTheme.warningColor,
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text(
                         "Envoyer",
                         style: TextStyle(color: CustomTheme.greyColor),
-                    ),
-                  )
+                      ),
+                    )
                 ),
                 Container(
                   child: Column(
