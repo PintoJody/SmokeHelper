@@ -43,13 +43,6 @@ class _RegisterView extends State<RegisterView> {
       // Redirection
       Navigator.pushNamed(context, "/LoginView");
 
-      //TODO a faire dans la connexion A la place
-      // // Stock User Id
-      // await _authService.setAuthToken(responseData["_id"]);
-      // // Redirection main app page
-      // await Future.delayed(Duration(seconds: 1));
-      // Navigator.popUntil(context, (route) => route.isFirst);
-
     }else{
       setState(() {
         emailError = responseData['email'];
