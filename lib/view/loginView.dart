@@ -7,6 +7,7 @@ import 'package:smoke_helper/theme/theme.dart';
 
 import '../model/UserModel.dart';
 import '../service/login_service.dart';
+import '../widget/ValidationWidget.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ class _LoginView extends State<LoginView> {
   String? usernameError;
   String? usernameEmailError;
   String? test;
+  bool _isUserConfirmed = true;
 
   Future<void> _login() async {
     print(_user.usernameEmail);
@@ -36,7 +38,13 @@ class _LoginView extends State<LoginView> {
     Map<String, dynamic> responseData;
     responseData = await json.decode(responseJson.data);
 
-    if (responseJson.success) {
+    setState(() {
+      _isUserConfirmed = responseData["confirmed"];
+    });
+
+    print(responseData["confirmed"]);
+
+    if (responseJson.success && _isUserConfirmed) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Vous êtes connecté ! Redirection...'),
@@ -45,17 +53,12 @@ class _LoginView extends State<LoginView> {
         ),
       );
 
-      //TODO AJOUTER CONDITION SI USER NON VERIF => INPUT CONFIRM TOKEN
-      print(responseData);
       // // Stock User Id
-      await _authService.setAuthToken(responseData["_id"]);
+      await _authService.setAuthToken('userId', responseData["_id"]);
 
-      //TODO REDIRECTION
-      test = await _authService.getAuthToken();
-      print(test);
       // // Redirection main app page
-      // await Future.delayed(Duration(seconds: 1));
-      // Navigator.popUntil(context, (route) => route.isFirst);
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.popUntil(context, (route) => route.isFirst);
 
     }else{
       setState(() {
@@ -151,6 +154,9 @@ class _LoginView extends State<LoginView> {
                     return null;
                   },
                   onSaved: (value) => _user.password = value!,
+                ),
+                ValidationWidget(
+                  isUserConfirmed: _isUserConfirmed,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),

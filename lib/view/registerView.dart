@@ -32,6 +32,7 @@ class _RegisterView extends State<RegisterView> {
     responseData = await json.decode(responseJson.data);
 
     if (responseJson.success) {
+      await _authService.setAuthToken('userId', responseData["_id"]);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Inscription réussie ! Vous allez recevoir un mail de confirmation à l\'adresse renseignée.'),
