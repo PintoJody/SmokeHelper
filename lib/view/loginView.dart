@@ -57,7 +57,7 @@ class _LoginView extends State<LoginView> {
       await _authService.setAuthToken('userId', responseData["_id"]);
 
       // // Redirection main app page
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 2));
       Navigator.popUntil(context, (route) => route.isFirst);
 
     }else{
