@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:smoke_helper/widget/CardButton.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
 
+import '../service/auth_token_service.dart';
 import '../theme/theme.dart';
+import '../widget/DeleteUserButton.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -13,6 +15,23 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
+  final AuthService _authService = AuthService();
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserId();
+  }
+
+  Future<void> getUserId() async {
+    final id = await _authService.getAuthToken('userId');
+    print('ID utilisateur: $id');
+    setState(() {
+      userId = id;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,6 +83,14 @@ class _SettingViewState extends State<SettingView> {
                         ),
                         const SizedBox(height: 8.0),
                         const Text("Vous êtes actuellement connecté en tant que johnDoe.", style: TextStyle(color: CustomTheme.greyColor, fontSize: 10.0)),
+                        const SizedBox(height: 40.0),
+                        Row(
+                          children: [
+                            userId != null
+                              ? DeleteUserButton(userId: userId!)
+                              : CircularProgressIndicator(),
+                          ]
+                        ),
                       ],
                     ),
                   ),
