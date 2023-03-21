@@ -4,13 +4,13 @@ class AuthService {
   final storage = FlutterSecureStorage();
 
   // Stockage du jeton d'authentification
-  Future<void> setAuthToken(String token) async {
-    await storage.write(key: 'authToken', value: token);
+  Future<void> setAuthToken(String key, String token) async {
+    await storage.write(key: key, value: token);
   }
 
   // Récupération du jeton d'authentification
-  Future<String?> getAuthToken() async {
-    final token = await storage.read(key: 'authToken');
+  Future<String?> getAuthToken(String key) async {
+    final token = await storage.read(key: key);
     return token;
   }
 
