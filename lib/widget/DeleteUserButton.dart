@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/view/registerView.dart';
 
 import '../service/auth_token_service.dart';
 import '../service/deleteUserService.dart';
 import '../theme/theme.dart';
-import '../view/loginView.dart';
 
 class DeleteUserButton extends StatelessWidget {
   final AuthService _authService = AuthService();
@@ -39,15 +39,13 @@ class DeleteUserButton extends StatelessWidget {
           final success = await deleteUserService(userId);
           if (success) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Compte supprimé')),
+              SnackBar(content: Text('Le compte a bien été supprimé.')),
             );
             //
             //Delete datas user
-            //TODO A DECOMMENTER
             await _authService.deleteAllTokens();
             // Redirection
-            //TODO problème redirection
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterView()));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Echec de la suppression')),
