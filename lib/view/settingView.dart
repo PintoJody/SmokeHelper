@@ -4,6 +4,7 @@ import 'package:smoke_helper/widget/CardButton.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
 
 import '../service/auth_token_service.dart';
+import '../service/logoutService.dart';
 import '../theme/theme.dart';
 import '../widget/DeleteUserButton.dart';
 
@@ -77,8 +78,9 @@ class _SettingViewState extends State<SettingView> {
                         const SizedBox(height: 15.0),
                         InkWell(
                           child: const Text("Déconnexion", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                          onTap: (){
-                            //TODO lien Deconnexion
+                          onTap: () async {
+                              await LogoutService.logout(context);
+
                           },
                         ),
                         const SizedBox(height: 8.0),
