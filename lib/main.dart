@@ -14,6 +14,7 @@ void main(){
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/LoginView',
       routes: {
-        // '/': (context) => HomePage(),
+        // '/': (context) => LoginView(),
         '/LoginView': (context) => LoginView(),
         '/RegisterView': (context) => RegisterView(),
         '/SettingView': (context) => SettingView(),

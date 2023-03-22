@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../service/auth_token_service.dart';
 import '../service/deleteUserService.dart';
 import '../theme/theme.dart';
+import '../view/loginView.dart';
 
 class DeleteUserButton extends StatelessWidget {
   final AuthService _authService = AuthService();
@@ -42,10 +43,11 @@ class DeleteUserButton extends StatelessWidget {
             );
             //
             //Delete datas user
+            //TODO A DECOMMENTER
             await _authService.deleteAllTokens();
             // Redirection
             //TODO problème redirection
-            Navigator.pushNamedAndRemoveUntil(context, '/LoginView', (route) => false);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView()));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Echec de la suppression')),
