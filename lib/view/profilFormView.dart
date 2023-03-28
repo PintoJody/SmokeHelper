@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import '../service/auth_token_service.dart';
 import '../service/getUserBySlug.dart';
+import '../service/updateUserService.dart';
 import '../theme/theme.dart';
 import '../widget/ActionButton.dart';
 import '../widget/HeaderNavigationView.dart';
@@ -15,6 +17,8 @@ class ProfilFormView extends StatefulWidget {
 }
 
 class _ProfilFormViewState extends State<ProfilFormView> {
+  final AuthService _authService = AuthService();
+  String? userId;
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -37,9 +41,18 @@ class _ProfilFormViewState extends State<ProfilFormView> {
     }
   }
 
+  Future<void> getUserId() async {
+    final id = await _authService.getAuthToken('userId');
+    print('ID utilisateur: $id');
+    setState(() {
+      userId = id;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getUserId();
     getUserData();
   }
 
@@ -106,45 +119,15 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Mot de passe',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Le champ mot de passe ne peut pas être vide';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Confirmation du mot de passe',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Le champ confirmation du mot de passe ne peut pas être vide';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Les mots de passe ne correspondent pas';
-                          }
-                          return null;
-                        },
-                      ),
                       const SizedBox(height: 40),
                       Container(
                         child: Align(
                           alignment: Alignment.center,
                           child: ActionButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState?.validate() ?? true) {
-                                // TODO: Submit form
-                                print(_emailController);
-                                print(_passwordController);
+                                final response = await UpdateService.update(userId!, username: _usernameController.text, email: _emailController.text);
+                                Navigator.pop(context);
                               }
                             },
                             textButton: "Modifier",

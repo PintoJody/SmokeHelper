@@ -230,7 +230,6 @@ class _ConsumptionViewState extends State<ConsumptionView> {
                     //Init _userCigInfo
                     _userCigInfo = UserCigInfo(averagePackPrice: _packPrice, cigsPerPack: _cigsPerPack, estimatedAveragePerDay: _estimatedAverage);
                     final response = await UpdateService.update(userId!, userCigInfo: _userCigInfo);
-                    //TODO REDIRECTION
                     Navigator.pop(context);
                   },
                   child: Padding(
