@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
+import 'package:smoke_helper/view/consumptionView.dart';
 import 'package:smoke_helper/view/logBookFormView.dart';
 import 'package:smoke_helper/view/logBookView.dart';
 import 'package:smoke_helper/view/loginView.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
         '/ProfilFormView': (context) => ProfilFormView(),
         '/LogBookFormView': (context) => LogBookFormView(),
         '/LogBookView': (context) => LogBookView(),
+        '/ConsumptionView': (context) => ConsumptionView(),
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),

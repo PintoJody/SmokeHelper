@@ -17,7 +17,7 @@ class _RegisterView extends State<RegisterView> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool _acceptTerms = false;
-  User _user = User(email: '', username: '', password: '');
+  User _user = User(email: '', username: '', password: '', userCigInfo: UserCigInfo());
 
   //Stock variable error
   String? emailError;

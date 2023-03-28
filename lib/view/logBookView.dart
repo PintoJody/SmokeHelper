@@ -40,6 +40,7 @@ class _LogBookViewState extends State<LogBookView> {
                   fontSize: 12,
                   onPressed: (){
                     //TODO
+                    Navigator.pushNamed(context, '/ConsumptionView');
                   },
                 ),
               ],
