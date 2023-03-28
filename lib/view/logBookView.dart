@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/service/getUserBySlug.dart';
 import 'package:smoke_helper/theme/theme.dart';
 import 'package:smoke_helper/view/logBookFormView.dart';
 import 'package:smoke_helper/widget/ActionButton.dart';
@@ -15,9 +18,44 @@ class LogBookView extends StatefulWidget {
 }
 
 class _LogBookViewState extends State<LogBookView> {
+  bool _isLoading = true;
+  String _cigInfo = "";
+  String cigsPerPack = "";
+  String cigsPrice = "";
+  String cigsPerDay = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if(responseData["cigInfo"] != null) {
+      setState(() {
+        _isLoading = false;
+        _cigInfo = responseData["cigInfo"];
+
+        final cigInfoMap = jsonDecode(_cigInfo);
+        cigsPerPack = cigInfoMap['cigsPerPack'];
+        cigsPrice = cigInfoMap['averagePackPrice'];
+        cigsPerDay = cigInfoMap['estimatedAveragePerDay'];
+
+      });
+    } else {
+      print("_cigInfo is null");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return _isLoading ? Center(child: CircularProgressIndicator()) :
+    SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -39,14 +77,13 @@ class _LogBookViewState extends State<LogBookView> {
                   width: 80,
                   fontSize: 12,
                   onPressed: (){
-                    //TODO
                     Navigator.pushNamed(context, '/ConsumptionView');
                   },
                 ),
               ],
             ),
             SizedBox(height: 40),
-            CardConsumption(nbCigarette: "10", nbPerPack: "20", nbPrice: "15"),
+            CardConsumption(nbCigarette: cigsPerDay, nbPerPack: cigsPerPack, nbPrice: cigsPrice),
             const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

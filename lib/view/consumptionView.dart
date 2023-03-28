@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/model/UserModel.dart';
+import 'package:smoke_helper/view/logBookView.dart';
 
 import '../service/auth_token_service.dart';
 import '../service/updateUserService.dart';
@@ -229,8 +230,8 @@ class _ConsumptionViewState extends State<ConsumptionView> {
                     //Init _userCigInfo
                     _userCigInfo = UserCigInfo(averagePackPrice: _packPrice, cigsPerPack: _cigsPerPack, estimatedAveragePerDay: _estimatedAverage);
                     final response = await UpdateService.update(userId!, userCigInfo: _userCigInfo);
-                    print(response.success);
-                    print(response.data);
+                    //TODO REDIRECTION
+                    Navigator.pop(context);
                   },
                   child: Padding(
                     padding: EdgeInsets.all(15.0),
