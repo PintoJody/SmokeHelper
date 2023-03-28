@@ -18,7 +18,7 @@ class _LoginView extends State<LoginView> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  User _user = User(email: '', username: '', password: '', usernameEmail: '');
+  User _user = User(email: '', username: '', password: '', usernameEmail: '', userCigInfo: UserCigInfo());
 
   //Stock variable error
   String? passwordError;
@@ -29,8 +29,6 @@ class _LoginView extends State<LoginView> {
   bool _isUserConfirmed = true;
 
   Future<void> _login() async {
-    print(_user.usernameEmail);
-    print(_user.password);
 
     final responseJson = await LoginService.login(_user);
 
@@ -43,6 +41,7 @@ class _LoginView extends State<LoginView> {
     });
 
     print(responseData["confirmed"]);
+    print(responseData);
 
     if (responseJson.success && _isUserConfirmed) {
       ScaffoldMessenger.of(context).showSnackBar(

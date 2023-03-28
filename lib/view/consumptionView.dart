@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smoke_helper/model/UserModel.dart';
 
+import '../service/auth_token_service.dart';
+import '../service/updateUserService.dart';
 import '../theme/theme.dart';
 import '../widget/HeaderNavigationView.dart';
 
@@ -9,9 +12,28 @@ class ConsumptionView extends StatefulWidget {
 }
 
 class _ConsumptionViewState extends State<ConsumptionView> {
-  int _value1 = 0;
-  int _value2 = 0;
-  int _value3 = 0;
+  final AuthService _authService = AuthService();
+
+  String? userId;
+  int _estimatedAverage = 0;
+  int _packPrice = 0;
+  int _cigsPerPack = 0;
+
+  UserCigInfo? _userCigInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserId();
+  }
+
+  Future<void> getUserId() async {
+    final id = await _authService.getAuthToken('userId');
+    print('ID utilisateur: $id');
+    setState(() {
+      userId = id;
+    });
+  }
 
   void _incrementValue(int value, ValueSetter<int> setValue) {
     setState(() {
@@ -61,81 +83,154 @@ class _ConsumptionViewState extends State<ConsumptionView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Champ 1",
+                      "Combien de cigarette pensez-vous fumer par jour ?",
                       style: TextStyle(fontSize: 20),
                     ),
+                    SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () =>
-                              _decrementValue(_value1, (value) => _value1 = value),
-                          icon: Icon(Icons.remove),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(2),
+                              bottomLeft: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () =>
+                                _decrementValue(_estimatedAverage, (value) => _estimatedAverage = value),
+                            icon: Icon(Icons.remove),
+                          ),
                         ),
+                        SizedBox(width: 20),
                         Text(
-                          "$_value1",
-                          style: TextStyle(fontSize: 20),
+                          "$_estimatedAverage",
+                          style: TextStyle(fontSize: 25),
                         ),
-                        IconButton(
-                          onPressed: () =>
-                              _incrementValue(_value1, (value) => _value1 = value),
-                          icon: Icon(Icons.add),
+                        SizedBox(width: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(2),
+                              bottomLeft: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () =>
+                                _incrementValue(_estimatedAverage, (value) => _estimatedAverage = value),
+                            icon: Icon(Icons.add),
+                          ),
                         ),
                       ],
                     ),
+                    SizedBox(height: 20),
                     Text(
-                      "Champ 2",
+                      "Quel est le prix du paquet de votre marque habituelle ? ",
                       style: TextStyle(fontSize: 20),
                     ),
+                    SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () =>
-                              _decrementValue(_value2, (value) => _value2 = value),
-                          icon: Icon(Icons.remove),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(2),
+                              bottomLeft: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () =>
+                                _decrementValue(_packPrice, (value) => _packPrice = value),
+                            icon: Icon(Icons.remove),
+                          ),
                         ),
+                        SizedBox(width: 20),
                         Text(
-                          "$_value2",
-                          style: TextStyle(fontSize: 20),
+                          "$_packPrice",
+                          style: TextStyle(fontSize: 25),
                         ),
-                        IconButton(
-                          onPressed: () =>
-                              _incrementValue(_value2, (value) => _value2 = value),
-                          icon: Icon(Icons.add),
+                        SizedBox(width: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(2),
+                              bottomLeft: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () =>
+                                _incrementValue(_packPrice, (value) => _packPrice = value),
+                            icon: Icon(Icons.add),
+                          ),
                         ),
                       ],
                     ),
+                    SizedBox(height: 20),
                     Text(
-                      "Champ 3",
+                      "Combien de cigarettes contient votre paquet / blague à tabac ?",
                       style: TextStyle(fontSize: 20),
                     ),
+                    SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () =>
-                              _decrementValue(_value3, (value) => _value3 = value),
-                          icon: Icon(Icons.remove),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(2),
+                              bottomLeft: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () => _decrementValue(_cigsPerPack, (value) => _cigsPerPack = value),
+                            icon: Icon(Icons.remove),
+                            padding: EdgeInsets.zero,
+                          ),
                         ),
+                        SizedBox(width: 20),
                         Text(
-                          "$_value3",
-                          style: TextStyle(fontSize: 20),
+                          "$_cigsPerPack",
+                          style: TextStyle(fontSize: 25),
                         ),
-                        IconButton(
-                          onPressed: () =>
-                              _incrementValue(_value3, (value) => _value3 = value),
-                          icon: Icon(Icons.add),
+                        SizedBox(width: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomTheme.greenColor, width: 3),
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(2),
+                              bottomRight: Radius.circular(2),
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () => _incrementValue(_cigsPerPack, (value) => _cigsPerPack = value),
+                            icon: Icon(Icons.add),
+                            padding: EdgeInsets.zero,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(CustomTheme.greenColor),
                   ),
-                  onPressed: () {
-                    // Envoyer les données
+                  onPressed: () async {
+                    //Init _userCigInfo
+                    _userCigInfo = UserCigInfo(averagePackPrice: _packPrice, cigsPerPack: _cigsPerPack, estimatedAveragePerDay: _estimatedAverage);
+                    final response = await UpdateService.update(userId!, userCigInfo: _userCigInfo);
+                    print(response.success);
+                    print(response.data);
                   },
                   child: Padding(
                     padding: EdgeInsets.all(15.0),
