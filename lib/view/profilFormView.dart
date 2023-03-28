@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import '../service/getUserBySlug.dart';
 import '../theme/theme.dart';
 import '../widget/ActionButton.dart';
 import '../widget/HeaderNavigationView.dart';
@@ -13,14 +16,36 @@ class ProfilFormView extends StatefulWidget {
 
 class _ProfilFormViewState extends State<ProfilFormView> {
   final _formKey = GlobalKey<FormState>();
-  final _pseudoController = TextEditingController();
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _isLoading = true;
+  late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if(responseData != null){
+      setState(() {
+        _isLoading = false;
+        _usernameController = TextEditingController(text: responseData["username"]);
+        _emailController = TextEditingController(text: responseData["email"]);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
 
   @override
   void dispose() {
-    _pseudoController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -37,7 +62,7 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                 pageName: "Mon Profil",
                 parentContext: context,
                 isHomePage: false),
-            body: SingleChildScrollView(
+            body: _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 35.0, bottom: 35.0, left: 16.0, right: 16.0),
@@ -55,7 +80,7 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                       ),
                       const SizedBox(height: 16.0),
                       TextFormField(
-                        controller: _pseudoController,
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'Pseudo',
                         ),
@@ -125,26 +150,6 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                             textButton: "Modifier",
                             width: 120.0,
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      GestureDetector(
-                        onTap: () {
-                          print("SUPPRESSION COMPTE");
-                        },
-                        child: Row(
-                          children: const [
-                            Icon(Icons.delete, color: Color(0xFFC62828)),
-                            SizedBox(width: 5),
-                            Text(
-                              'Supprimer définitivement mon compte',
-                              style: TextStyle(
-                                color: Color(0xFFC62828),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
