@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/widget/CardBadge.dart';
 import 'package:smoke_helper/widget/NavigatorButton.dart';
 
+import '../service/getUserBySlug.dart';
 import '../theme/theme.dart';
 import '../widget/HeaderNavigationView.dart';
 
@@ -13,9 +16,39 @@ class ProfilView extends StatefulWidget {
 }
 
 class _ProfilViewState extends State<ProfilView> {
-
   int _currentIndex = 0;
-  //TODO CREER UN WIDGET QUI PREND PARAM DIFFERENTS SI BADGE VERROUILLE OU NON
+  bool _isLoading = true;
+  String _username = "";
+  String _createdAt = "";
+  int _countBadges = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    setState(() {
+      _isLoading = false;
+      _username = responseData["username"];
+      _countBadges = responseData["badges"].length;
+
+      //FORMAT DATETIME
+      DateTime date = DateTime.parse(responseData["createdAt"]);
+      _createdAt = "${date.day}/${date.month}/${date.year}";
+
+      print(_countBadges);
+    });
+
+  }
+
+  //TODO GET USER BADGES
   List<Widget> _widgets = [
     //Badges obtenus
   Column(
@@ -40,7 +73,7 @@ class _ProfilViewState extends State<ProfilView> {
         home: Scaffold(
             backgroundColor: CustomTheme.bgWhiteColor,
             appBar: HeaderNavigationView(pageName: "Mon Profil", parentContext: context, isHomePage: false),
-            body: SingleChildScrollView(
+            body: _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,11 +95,11 @@ class _ProfilViewState extends State<ProfilView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("JohnDoe", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: CustomTheme.greyColor)),
+                                  Text("${_username}", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: CustomTheme.greyColor)),
                                   const SizedBox(height: 5.0),
-                                  Text("4 badges", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CustomTheme.greenColor)),
+                                  Text("${_countBadges} badges", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CustomTheme.greenColor)),
                                   const SizedBox(height: 2.0),
-                                  Text("Membre depuis le 16/02/2023", style: TextStyle(fontSize: 8.0, color: CustomTheme.greyColor)),
+                                  Text("Membre depuis le ${_createdAt}", style: TextStyle(fontSize: 8.0, color: CustomTheme.greyColor)),
                                   const SizedBox(height: 5.0),
                                 ],
                               )

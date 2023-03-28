@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:smoke_helper/widget/CardButton.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
 
 import '../service/auth_token_service.dart';
+import '../service/getUserBySlug.dart';
 import '../service/logoutService.dart';
 import '../theme/theme.dart';
 import '../widget/DeleteUserButton.dart';
@@ -18,11 +21,15 @@ class SettingView extends StatefulWidget {
 class _SettingViewState extends State<SettingView> {
   final AuthService _authService = AuthService();
   String? userId;
+  bool _isLoading = true;
+  String _username = "";
+  String _email = "";
 
   @override
   void initState() {
     super.initState();
     getUserId();
+    getUserData();
   }
 
   Future<void> getUserId() async {
@@ -33,6 +40,22 @@ class _SettingViewState extends State<SettingView> {
     });
   }
 
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+      setState(() {
+        _isLoading = false;
+        _username = responseData["username"];
+        _email = responseData["email"];
+
+        print(_email);
+      });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,12 +63,12 @@ class _SettingViewState extends State<SettingView> {
         home: Scaffold(
             backgroundColor: CustomTheme.bgWhiteColor,
             appBar: HeaderNavigationView(pageName: "Préférences", parentContext: context, isHomePage: false),
-            body: Padding(
+            body: _isLoading ? Center(child: CircularProgressIndicator()) : Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0,left: 5.0, right: 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CardButton(username: "JohnDoe", routeName: "/ProfilView", parentContext: context), //TODO => recupérer username dans bdd
+                  CardButton(username: _username, routeName: "/ProfilView", parentContext: context),
                   const SizedBox(height: 35.0),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -56,7 +79,7 @@ class _SettingViewState extends State<SettingView> {
                         const SizedBox(height: 15.0),
                         const Text("Email", style: TextStyle(color: CustomTheme.greyColor, fontWeight: FontWeight.bold, fontSize: 18.0)),
                         const SizedBox(height: 8.0),
-                        const Text("johnDoe@gmail.com", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0)), //TODO Recuperer mail user
+                        Text("${_email}", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0)),
                         const SizedBox(height: 35.0),
                         const Text("Informations", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
                         const SizedBox(height: 15.0),
