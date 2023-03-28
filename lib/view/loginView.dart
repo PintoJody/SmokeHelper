@@ -52,8 +52,9 @@ class _LoginView extends State<LoginView> {
         ),
       );
 
-      // // Stock User Id
+      // // Stock User Id + slug
       await _authService.setAuthToken('userId', responseData["_id"]);
+      await _authService.setAuthToken('slug', responseData["slug"]);
 
       // // Redirection main app page
       await Future.delayed(const Duration(seconds: 2));
