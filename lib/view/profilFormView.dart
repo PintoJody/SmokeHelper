@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+import '../service/auth_token_service.dart';
+import '../service/getUserBySlug.dart';
+import '../service/updateUserService.dart';
 import '../theme/theme.dart';
 import '../widget/ActionButton.dart';
 import '../widget/HeaderNavigationView.dart';
@@ -12,15 +17,48 @@ class ProfilFormView extends StatefulWidget {
 }
 
 class _ProfilFormViewState extends State<ProfilFormView> {
+  final AuthService _authService = AuthService();
+  String? userId;
   final _formKey = GlobalKey<FormState>();
-  final _pseudoController = TextEditingController();
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _isLoading = true;
+  late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if(responseData != null){
+      setState(() {
+        _isLoading = false;
+        _usernameController = TextEditingController(text: responseData["username"]);
+        _emailController = TextEditingController(text: responseData["email"]);
+      });
+    }
+  }
+
+  Future<void> getUserId() async {
+    final id = await _authService.getAuthToken('userId');
+    print('ID utilisateur: $id');
+    setState(() {
+      userId = id;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserId();
+    getUserData();
+  }
 
   @override
   void dispose() {
-    _pseudoController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -37,7 +75,7 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                 pageName: "Mon Profil",
                 parentContext: context,
                 isHomePage: false),
-            body: SingleChildScrollView(
+            body: _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 35.0, bottom: 35.0, left: 16.0, right: 16.0),
@@ -55,7 +93,7 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                       ),
                       const SizedBox(height: 16.0),
                       TextFormField(
-                        controller: _pseudoController,
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'Pseudo',
                         ),
@@ -81,70 +119,20 @@ class _ProfilFormViewState extends State<ProfilFormView> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Mot de passe',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Le champ mot de passe ne peut pas être vide';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Confirmation du mot de passe',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Le champ confirmation du mot de passe ne peut pas être vide';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Les mots de passe ne correspondent pas';
-                          }
-                          return null;
-                        },
-                      ),
                       const SizedBox(height: 40),
                       Container(
                         child: Align(
                           alignment: Alignment.center,
                           child: ActionButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState?.validate() ?? true) {
-                                // TODO: Submit form
-                                print(_emailController);
-                                print(_passwordController);
+                                final response = await UpdateService.update(userId!, username: _usernameController.text, email: _emailController.text);
+                                Navigator.pop(context);
                               }
                             },
                             textButton: "Modifier",
                             width: 120.0,
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      GestureDetector(
-                        onTap: () {
-                          print("SUPPRESSION COMPTE");
-                        },
-                        child: Row(
-                          children: const [
-                            Icon(Icons.delete, color: Color(0xFFC62828)),
-                            SizedBox(width: 5),
-                            Text(
-                              'Supprimer définitivement mon compte',
-                              style: TextStyle(
-                                color: Color(0xFFC62828),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
