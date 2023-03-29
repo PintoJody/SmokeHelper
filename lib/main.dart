@@ -7,6 +7,7 @@ import 'package:smoke_helper/view/logBookView.dart';
 import 'package:smoke_helper/view/loginView.dart';
 import 'package:smoke_helper/view/profilView.dart';
 import 'package:smoke_helper/view/profilFormView.dart';
+import 'package:smoke_helper/view/progressView.dart';
 import 'package:smoke_helper/view/registerView.dart';
 import 'package:smoke_helper/view/settingView.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
         '/LogBookView': (context) => LogBookView(),
         '/ConsumptionView': (context) => ConsumptionView(),
         '/BluetoothView': (context) => BluetoothConnectionWidget(),
+        '/ProgressView': (context) => ProgressView(),
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),
@@ -57,6 +59,7 @@ class _MyAppState extends State<MyApp> {
           body: [
             HomePage(),
             LogBookView(),
+            ProgressView(),
           ][_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
