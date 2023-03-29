@@ -133,7 +133,7 @@ class _RegisterView extends State<RegisterView> {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Mot de passe',
+                    labelText: 'Mot de passe *',
                     labelStyle: TextStyle(
                       color: CustomTheme.bgWhiteColor,
                     ),
@@ -152,6 +152,8 @@ class _RegisterView extends State<RegisterView> {
                   },
                   onSaved: (value) => _user.password = value!,
                 ),
+                const SizedBox(height: 8.0),
+                const Text('* doit comporter au moins 8 characteres avec une lettre et un chiffre', style: TextStyle(fontSize: 10.0, color: CustomTheme.bgWhiteColor), textAlign: TextAlign.start,),
                 const SizedBox(height: 24.0),
                 Row(
                   children: [
