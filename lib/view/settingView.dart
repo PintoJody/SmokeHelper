@@ -63,64 +63,75 @@ class _SettingViewState extends State<SettingView> {
         home: Scaffold(
             backgroundColor: CustomTheme.bgWhiteColor,
             appBar: HeaderNavigationView(pageName: "Préférences", parentContext: context, isHomePage: false),
-            body: _isLoading ? Center(child: CircularProgressIndicator()) : Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0,left: 5.0, right: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CardButton(username: _username, routeName: "/ProfilView", parentContext: context),
-                  const SizedBox(height: 35.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Mon compte", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
-                        const SizedBox(height: 15.0),
-                        const Text("Email", style: TextStyle(color: CustomTheme.greyColor, fontWeight: FontWeight.bold, fontSize: 18.0)),
-                        const SizedBox(height: 8.0),
-                        Text("${_email}", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0)),
-                        const SizedBox(height: 35.0),
-                        const Text("Informations", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
-                        const SizedBox(height: 15.0),
-                        InkWell(
-                          child: const Text("Condition générales d’utilisation", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                          onTap: (){
-                            //TODO lien vers les conditions générales
-                          },
-                        ),
-                        const SizedBox(height: 20.0),
-                        InkWell(
-                          child: const Text("Politique de confidentialité", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                          onTap: (){
-                            //TODO lien vers Politique de confidentialité
-                          },
-                        ),
-                        const SizedBox(height: 35.0),
-                        const Text("Autre", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
-                        const SizedBox(height: 15.0),
-                        InkWell(
-                          child: const Text("Déconnexion", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                          onTap: () async {
-                              await LogoutService.logout(context);
+            body: _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20.0, bottom: 20.0,left: 5.0, right: 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CardButton(username: _username, routeName: "/ProfilView", parentContext: context),
+                    const SizedBox(height: 35.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Mon compte", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
+                          const SizedBox(height: 15.0),
+                          const Text("Email", style: TextStyle(color: CustomTheme.greyColor, fontWeight: FontWeight.bold, fontSize: 18.0)),
+                          const SizedBox(height: 8.0),
+                          Text("${_email}", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0)),
+                          const SizedBox(height: 35.0),
+                          const Text("Bluetooth", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
+                          const SizedBox(height: 8.0),
+                          InkWell(
+                            child: const Text("Connexion à un appareil", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
+                            onTap: (){
+                              Navigator.pushNamed(context, '/BluetoothView');
+                            },
+                          ),
+                          const SizedBox(height: 35.0),
+                          const Text("Informations", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
+                          const SizedBox(height: 15.0),
+                          InkWell(
+                            child: const Text("Condition générales d’utilisation", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
+                            onTap: (){
+                              //TODO lien vers les conditions générales
+                            },
+                          ),
+                          const SizedBox(height: 20.0),
+                          InkWell(
+                            child: const Text("Politique de confidentialité", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
+                            onTap: (){
+                              //TODO lien vers Politique de confidentialité
+                            },
+                          ),
+                          const SizedBox(height: 35.0),
+                          const Text("Autre", style: TextStyle(color: CustomTheme.greenColor, fontWeight: FontWeight.bold, fontSize: 22.0)),
+                          const SizedBox(height: 15.0),
+                          InkWell(
+                            child: const Text("Déconnexion", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
+                            onTap: () async {
+                                await LogoutService.logout(context);
 
-                          },
-                        ),
-                        const SizedBox(height: 8.0),
-                        const Text("Vous êtes actuellement connecté en tant que johnDoe.", style: TextStyle(color: CustomTheme.greyColor, fontSize: 10.0)),
-                        const SizedBox(height: 40.0),
-                        Row(
-                          children: [
-                            userId != null
-                              ? DeleteUserButton(userId: userId!)
-                              : CircularProgressIndicator(),
-                          ]
-                        ),
-                      ],
+                            },
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text("Vous êtes actuellement connecté en tant que ${_username}.", style: TextStyle(color: CustomTheme.greyColor, fontSize: 10.0)),
+                          const SizedBox(height: 40.0),
+                          Row(
+                            children: [
+                              userId != null
+                                ? DeleteUserButton(userId: userId!)
+                                : CircularProgressIndicator(),
+                            ]
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                ],
+                  ],
+                ),
               ),
             ),
         )
