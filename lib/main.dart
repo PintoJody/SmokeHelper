@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
+import 'package:smoke_helper/view/bluetoothView.dart';
 import 'package:smoke_helper/view/consumptionView.dart';
 import 'package:smoke_helper/view/logBookFormView.dart';
 import 'package:smoke_helper/view/logBookView.dart';
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
         '/LogBookFormView': (context) => LogBookFormView(),
         '/LogBookView': (context) => LogBookView(),
         '/ConsumptionView': (context) => ConsumptionView(),
+        '/BluetoothView': (context) => BluetoothConnectionWidget(),
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),
