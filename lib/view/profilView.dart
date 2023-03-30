@@ -54,8 +54,6 @@ class _ProfilViewState extends State<ProfilView> {
   Column(
   children: [
     CardBadge(icon: Icons.home,title: "Bienvenue !", descriptions: "Vous venez de vous inscrire !", date: "20/02/2023", isLock: false),
-    CardBadge(icon: Icons.smoke_free, title: "1er semaine !", descriptions: "1 semaine sans fumer !", date: "06/03/2023", isLock: false),
-    CardBadge(icon: Icons.smoke_free, title: "1er semaine !", descriptions: "1 semaine sans fumer !", date: "06/03/2023", isLock: false),
     ],
   ),
     //Badges Vérrouillés

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-
-import '../model/CigUserModel.dart';
 import '../theme/theme.dart';
+import 'dart:convert';
 import '../widget/ChartWidget.dart';
-import '../widget/HeaderNavigationView.dart';
+import '../service/getCigUserByIdService.dart';
+
 
 class ProgressView extends StatefulWidget {
   @override
@@ -13,10 +12,36 @@ class ProgressView extends StatefulWidget {
 
 class _ProgressViewState extends State<ProgressView> {
   int _selectedIndex = 0;
+  bool _isLoading = true;
+  int _countCig = 0;
+  final CigUserService _getCigUserService = CigUserService();
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserCigData();
+  }
+
+  Future<void> _getUserCigData() async {
+    final response = await _getCigUserService.getCigUser();
+
+    if(response.success){
+      final data = jsonDecode(response.data);
+
+      setState(() {
+        _countCig = data["weekly"]["thisWeek"].length;
+        _isLoading = false;
+      });
+
+    }else{
+      print("Error fetch userCigData");
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -68,7 +93,7 @@ class _ProgressViewState extends State<ProgressView> {
                               color: CustomTheme.warningColor,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                            child: Text("10", style: TextStyle(color: CustomTheme.bgWhiteColor, fontWeight: FontWeight.bold, fontSize: 16.0)),
+                            child: Text("$_countCig", style: TextStyle(color: CustomTheme.bgWhiteColor, fontWeight: FontWeight.bold, fontSize: 16.0)),
                           ),
                         ),
                       ],
