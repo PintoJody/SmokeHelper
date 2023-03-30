@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smoke_helper/service/auth_token_service.dart';
 import 'package:smoke_helper/theme/theme.dart';
+import 'package:smoke_helper/view/resetPasswordView.dart';
 
 import '../model/UserModel.dart';
 import '../service/login_service.dart';
@@ -161,7 +162,9 @@ class _LoginView extends State<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, '/ResetPassword');
+                          },
                           child: const Text(
                             'Mot de passe oublié ?',
                             style: TextStyle(
