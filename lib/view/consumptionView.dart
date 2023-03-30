@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/model/UserModel.dart';
 import 'package:smoke_helper/view/logBookView.dart';
 
 import '../service/auth_token_service.dart';
 import '../service/updateUserService.dart';
+import '../service/getUserBySlug.dart';
 import '../theme/theme.dart';
 import '../widget/HeaderNavigationView.dart';
 
@@ -16,16 +19,49 @@ class _ConsumptionViewState extends State<ConsumptionView> {
   final AuthService _authService = AuthService();
 
   String? userId;
+  String _cigInfo = "";
+  bool _isLoading = true;
   int _estimatedAverage = 0;
   int _packPrice = 0;
   int _cigsPerPack = 0;
 
+  //get user infos
+  int _oldEstimatedAveragePerDay = 0;
+  int _oldPackPrice = 0;
+  int _oldCigsPerPack = 0;
   UserCigInfo? _userCigInfo;
 
   @override
   void initState() {
     super.initState();
     getUserId();
+    getUserData();
+  }
+
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    if(responseData["cigInfo"]["averagePackPrice"] != null && responseData["cigInfo"]["cigsPerPack"] != null && responseData["cigInfo"]["estimatedAveragePerDay"] != null) {
+      setState(() {
+        _isLoading = false;
+
+        _cigsPerPack = responseData["cigInfo"]["cigsPerPack"];
+        _packPrice = responseData["cigInfo"]["averagePackPrice"];
+        _estimatedAverage = responseData["cigInfo"]["estimatedAveragePerDay"];
+
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+        _cigsPerPack = 0;
+        _packPrice = 0;
+        _estimatedAverage = 0;
+      });
+    }
   }
 
   Future<void> getUserId() async {
@@ -57,7 +93,7 @@ class _ConsumptionViewState extends State<ConsumptionView> {
         home: Scaffold(
           backgroundColor: CustomTheme.bgWhiteColor,
           appBar: HeaderNavigationView(pageName: "Ma consommation", parentContext: context, isHomePage: false),
-          body: Column(
+          body: _isLoading ? Center(child: CircularProgressIndicator()) : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(

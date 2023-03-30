@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
 
 class CardConsumption extends StatefulWidget {
-  final String nbCigarette;
-  final String nbPrice;
-  final String nbPerPack;
+  final int nbCigarette;
+  final int nbPrice;
+  final int nbPerPack;
 
   const CardConsumption({required this.nbCigarette, required this.nbPerPack, required this.nbPrice});
 
@@ -21,7 +21,7 @@ class _CardConsumptionState extends State<CardConsumption> {
         Column(
           children: [
             Text(
-              widget.nbCigarette,
+              widget.nbCigarette.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomTheme.greenColor,
@@ -41,7 +41,7 @@ class _CardConsumptionState extends State<CardConsumption> {
         Column(
           children: [
             Text(
-              widget.nbPrice,
+              widget.nbPrice.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomTheme.greenColor,
@@ -61,7 +61,7 @@ class _CardConsumptionState extends State<CardConsumption> {
         Column(
           children: [
             Text(
-              widget.nbPerPack,
+              widget.nbPerPack.toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: CustomTheme.greenColor,

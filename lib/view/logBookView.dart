@@ -20,9 +20,9 @@ class LogBookView extends StatefulWidget {
 class _LogBookViewState extends State<LogBookView> {
   bool _isLoading = true;
   String _cigInfo = "";
-  String cigsPerPack = "";
-  String cigsPrice = "";
-  String cigsPerDay = "";
+  int cigsPerPack = 0;
+  int cigsPrice = 0;
+  int cigsPerDay = 0;
 
   @override
   void initState() {
@@ -36,19 +36,22 @@ class _LogBookViewState extends State<LogBookView> {
     Map<String, dynamic> responseData;
     responseData = await json.decode(responseJson.data);
 
-    if(responseData["cigInfo"] != null) {
+    if(responseData["cigInfo"]["averagePackPrice"] != null && responseData["cigInfo"]["cigsPerPack"] != null && responseData["cigInfo"]["estimatedAveragePerDay"] != null) {
       setState(() {
         _isLoading = false;
-        _cigInfo = responseData["cigInfo"];
 
-        final cigInfoMap = jsonDecode(_cigInfo);
-        cigsPerPack = cigInfoMap['cigsPerPack'];
-        cigsPrice = cigInfoMap['averagePackPrice'];
-        cigsPerDay = cigInfoMap['estimatedAveragePerDay'];
+        cigsPerPack = responseData["cigInfo"]["cigsPerPack"];
+        cigsPrice = responseData["cigInfo"]["averagePackPrice"];
+        cigsPerDay = responseData["cigInfo"]["estimatedAveragePerDay"];
 
       });
     } else {
-      print("_cigInfo is null");
+      setState(() {
+        _isLoading = false;
+        cigsPerPack = 0;
+        cigsPrice = 0;
+        cigsPerDay = 0;
+      });
     }
   }
 
