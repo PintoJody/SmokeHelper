@@ -80,10 +80,10 @@ class _MyAppState extends State<MyApp> {
                 icon: Icon(Icons.bar_chart),
                 label: 'Progrès',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events),
-                label: 'Classement',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.emoji_events),
+              //   label: 'Classement',
+              // ),
             ],
           ),
       ),

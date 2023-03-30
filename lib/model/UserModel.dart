@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserCigInfo {
   int averagePackPrice;
   int cigsPerPack;
@@ -5,11 +7,11 @@ class UserCigInfo {
 
   UserCigInfo({this.averagePackPrice = 0, this.cigsPerPack = 0, this.estimatedAveragePerDay = 0});
 
-  Map<String, String> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      'averagePackPrice': averagePackPrice.toString(),
-      'cigsPerPack': cigsPerPack.toString(),
-      'estimatedAveragePerDay': estimatedAveragePerDay.toString(),
+      'averagePackPrice': averagePackPrice,
+      'cigsPerPack': cigsPerPack,
+      'estimatedAveragePerDay': estimatedAveragePerDay,
     };
   }
 }
@@ -25,7 +27,13 @@ class User {
   User({required this.username, required this.password, required this.email, this.usernameEmail = "", required this.userCigInfo});
 
   Map<String, dynamic> toMap() {
-    return {'username': username, 'password': password, 'email': email, 'usernameEmail':usernameEmail, 'userCigInfo':UserCigInfo};
+    return {
+      'username': username,
+      'password': password,
+      'email': email,
+      'usernameEmail':usernameEmail,
+      'userCigInfo': jsonEncode(userCigInfo.toMap()),
+    };
   }
 }
 

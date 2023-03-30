@@ -7,6 +7,7 @@ import 'package:smoke_helper/theme/theme.dart';
 
 import '../model/UserModel.dart';
 import '../service/register_service.dart';
+import '../service/addBadgeService.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -33,6 +34,12 @@ class _RegisterView extends State<RegisterView> {
 
     if (responseJson.success) {
       await _authService.setAuthToken('userId', responseData["_id"]);
+
+      //add welcomeBadge
+      final addBadge = await addBadgeService.addBadge(responseData["_id"], "6405e63e80a0dfe686b07b6c");
+
+      print(addBadge);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Inscription réussie ! Vous allez recevoir un mail de confirmation à l\'adresse renseignée.'),
@@ -42,7 +49,7 @@ class _RegisterView extends State<RegisterView> {
       );
 
       // Redirection
-      Navigator.pushNamed(context, "/LoginView");
+      Navigator.pushNamedAndRemoveUntil(context, '/LoginView', (route) => false);
 
     }else{
       setState(() {

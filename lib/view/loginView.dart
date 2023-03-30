@@ -40,9 +40,6 @@ class _LoginView extends State<LoginView> {
       _isUserConfirmed = responseData["confirmed"];
     });
 
-    print(responseData["confirmed"]);
-    print(responseData);
-
     if (responseJson.success && _isUserConfirmed) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
