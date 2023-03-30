@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smoke_helper/widget/CardBadge.dart';
 import 'package:smoke_helper/widget/NavigatorButton.dart';
 
+import '../model/BadgeModel.dart';
 import '../service/getUserBySlug.dart';
 import '../theme/theme.dart';
 import '../widget/HeaderNavigationView.dart';
@@ -16,16 +17,21 @@ class ProfilView extends StatefulWidget {
 }
 
 class _ProfilViewState extends State<ProfilView> {
-  int _currentIndex = 0;
+  List<Badge> _badgesObtenus = [];
+  List<Badge> _badgesVerrouilles = [];
+
   bool _isLoading = true;
   String _username = "";
   String _createdAt = "";
   int _countBadges = 0;
+  bool afficherBadgesVerrouilles = false;
+  List<Badge> _badges = [];
 
   @override
   void initState() {
     super.initState();
     getUserData();
+    _fetchBadges();
   }
 
   Future<void> getUserData() async {
@@ -48,21 +54,39 @@ class _ProfilViewState extends State<ProfilView> {
 
   }
 
-  //TODO GET USER BADGES
-  List<Widget> _widgets = [
-    //Badges obtenus
-  Column(
-  children: [
-    CardBadge(icon: Icons.home,title: "Bienvenue !", descriptions: "Vous venez de vous inscrire !", date: "20/02/2023", isLock: false),
-    ],
-  ),
-    //Badges Vérrouillés
-    Column(
-      children: [
-        CardBadge(title: "Anniversaire", descriptions: "Vous êtes inscrit depuis 1 an !", isLock: true),
-      ],
-    ),
-  ];
+  Future<void> _fetchBadges() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    print(responseData["badges"]);
+
+    setState(() {
+      _badgesObtenus = responseData["badges"]
+          .map<Badge>((badgeJson) =>
+          Badge(
+            title: badgeJson['title'],
+            description: badgeJson['description'],
+            unlockDate: DateTime.parse(badgeJson['unlockDate']),
+            icon: badgeJson['icon'],
+          ))
+          .toList();
+
+      _badgesVerrouilles = responseData["badges"]
+          .where((badge) => badge['isLock'] == true)
+          .map<Badge>((badgeJson) =>
+          Badge(
+            title: badgeJson['title'],
+            description: badgeJson['description'],
+            unlockDate: DateTime.parse(badgeJson['unlockDate']),
+            icon: badgeJson['icon'],
+          ))
+          .toList();
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,52 +134,50 @@ class _ProfilViewState extends State<ProfilView> {
                     ),
                   ),
 
-                  Center(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _currentIndex = 0;
-                                });
-                              },
-                              child: Text(
-                                "Mes badges",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                  color: _currentIndex == 0 ? CustomTheme.greenColor : CustomTheme.greyColor,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _currentIndex = 1;
-                                });
-                              },
-                              child: Text(
-                                "Badges verrouillées",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                  color: _currentIndex == 1 ? CustomTheme.greenColor : CustomTheme.greyColor,
-                                ),
-                              ),
-                            ),
-                          ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            afficherBadgesVerrouilles = false;
+                          });
+                        },
+                        child: const Text(
+                          "Mes badges",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: CustomTheme.greenColor,
+                          ),
                         ),
-                        SizedBox(height: 40),
-                        IndexedStack(
-                          index: _currentIndex,
-                          children: _widgets,
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            afficherBadgesVerrouilles = true;
+                          });
+                        },
+                        child: const Text(
+                          "Badges verrouillés",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: CustomTheme.greenColor,
+                          ),
                         ),
-                        SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: afficherBadgesVerrouilles ? _badgesVerrouilles.length : _badgesObtenus.length,
+                    itemBuilder: (context, index) {
+                      final badge = afficherBadgesVerrouilles ? _badgesVerrouilles[index] : _badgesObtenus[index];
+                      return CardBadge(badge: badge, isLocked: afficherBadgesVerrouilles);
+                    },
                   ),
                 ],
               ),
