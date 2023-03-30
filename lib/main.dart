@@ -9,6 +9,7 @@ import 'package:smoke_helper/view/profilView.dart';
 import 'package:smoke_helper/view/profilFormView.dart';
 import 'package:smoke_helper/view/progressView.dart';
 import 'package:smoke_helper/view/registerView.dart';
+import 'package:smoke_helper/view/resetPasswordTokenView.dart';
 import 'package:smoke_helper/view/resetPasswordView.dart';
 import 'package:smoke_helper/view/settingView.dart';
 import 'package:smoke_helper/widget/HeaderNavigationView.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
         '/BluetoothView': (context) => BluetoothConnectionWidget(),
         '/ProgressView': (context) => ProgressView(),
         '/ResetPassword': (context) => ResetPassword(),
+        '/ResetPasswordToken': (context) => ResetPasswordTokenView(),
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),

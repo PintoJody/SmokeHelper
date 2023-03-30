@@ -2,28 +2,30 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smoke_helper/view/resetPasswordTokenView.dart';
+
 import '../service/auth_token_service.dart';
 import '../service/resetPasswordService.dart';
 import '../theme/theme.dart';
-import '../widget/HeaderNavigationView.dart';
 import 'loginView.dart';
 
-class ResetPassword extends StatefulWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+class ResetPasswordTokenView extends StatefulWidget {
+  const ResetPasswordTokenView({Key? key}) : super(key: key);
 
   @override
-  State<ResetPassword> createState() => _resetPasswordState();
+  State<ResetPasswordTokenView> createState() => _ResetPasswordTokenView();
 }
 
-class _resetPasswordState extends State<ResetPassword> {
+class _ResetPasswordTokenView extends State<ResetPasswordTokenView> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
-  String? _emailError;
-  late String _email;
 
-  Future<void> _reset() async {
-    final responseJson = await ResetPasswordService.resetPasswordEmail(_email);
+  String? _tokenError;
+  String? _passwordError;
+  late String _token;
+  late String _new;
+
+  Future<void> _newPassword() async {
+    final responseJson = await ResetPasswordService.resetPasswordToken(_token, _new);
 
     //Format data
     Map<String, dynamic> responseData;
@@ -32,7 +34,7 @@ class _resetPasswordState extends State<ResetPassword> {
     if (responseJson.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Vous allez recevoir un mail'),
+          content: Text('Votre mot de passe a bien été modifié'),
           duration: Duration(seconds: 2),
           backgroundColor: CustomTheme.successColor,
         ),
@@ -40,11 +42,11 @@ class _resetPasswordState extends State<ResetPassword> {
 
       await _authService.setAuthToken('userId', responseData["data"]["_id"]);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResetPasswordTokenView()));
 
     }else{
       setState(() {
-        _emailError = responseData['email'];
+        _passwordError = responseData['newPw'];
+        _passwordError = responseData['token'];
       });
     }
   }
@@ -70,7 +72,7 @@ class _resetPasswordState extends State<ResetPassword> {
                       ),
                     ),
                     const Text(
-                      'Mot de passe',
+                      'Code de vérification',
                       style: TextStyle(
                         fontSize: 22.0,
                         color: Colors.white,
@@ -79,11 +81,10 @@ class _resetPasswordState extends State<ResetPassword> {
                     const SizedBox(height: 30.0),
                     TextFormField(
                       decoration: const InputDecoration(
-                        labelText: 'Veuillez entrer votre email',
+                        labelText: 'Veuillez entrer votre code de vérification reçu',
                         labelStyle: TextStyle(
                           color: CustomTheme.bgWhiteColor,
                         ),
-                        hintText: "exemple@gmail.com",
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
                         ),
@@ -94,13 +95,37 @@ class _resetPasswordState extends State<ResetPassword> {
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "Vous devez remplir ce champ";
-                        }else if (_emailError != null) {
-                          return _emailError;
+                        }else if (_tokenError != null) {
+                          return _tokenError;
                         }
                         return null;
                       },
-                      onSaved: (value) => _email = value!,
+                      onSaved: (value) => _token = value!,
                     ),
+                    const SizedBox(height: 40.0),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Nouveau mot de passe *',
+                        labelStyle: TextStyle(
+                          color: CustomTheme.bgWhiteColor,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: CustomTheme.bgWhiteColor),
+                        ),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Veuillez entrer un mot de passe";
+                        }else if (_passwordError != null) {
+                          return _passwordError;
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _new = value!,
+                    ),
+                    const SizedBox(height: 8.0),
+                    const Text('* doit comporter au moins 8 characteres avec une lettre et un chiffre', style: TextStyle(fontSize: 10.0, color: CustomTheme.bgWhiteColor), textAlign: TextAlign.start,),
                     const SizedBox(height: 40.0),
                     SizedBox(
                         width: 200.0,
@@ -112,7 +137,7 @@ class _resetPasswordState extends State<ResetPassword> {
                           onPressed: () {
                             if(_formKey.currentState?.validate() ?? false){
                               _formKey.currentState?.save();
-                              _reset();
+                              _newPassword();
                             }else{
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -135,7 +160,7 @@ class _resetPasswordState extends State<ResetPassword> {
                         Navigator.pop(context);
                       },
                       child: const Text(
-                        'Retour à la page d\'accueil',
+                        'Retour à la page de connexion',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
