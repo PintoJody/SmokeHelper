@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
-class CardWithItems extends StatefulWidget {
+class CardWithUserInfo extends StatefulWidget {
   final String title;
   final List<IconData> icons;
   final List<String> descriptions;
   final List<int> iconsColors;
 
-  CardWithItems({required this.title, required this.icons, required this.descriptions, required this.iconsColors});
+  CardWithUserInfo({required this.title, required this.icons, required this.descriptions, required this.iconsColors});
 
   @override
-  State<CardWithItems> createState() => _CardWithItemsState();
+  State<CardWithUserInfo> createState() => _CardWithUserInfoState();
 }
 
-class _CardWithItemsState extends State<CardWithItems> {
+class _CardWithUserInfoState extends State<CardWithUserInfo> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -47,10 +47,10 @@ class _CardWithItemsState extends State<CardWithItems> {
                   child: Column(
                     children: [
                       Center(child:
-                        IconTheme(
-                          data: IconThemeData(size: 35.0, color: Color(widget.iconsColors[index])),
-                          child: Icon(widget.icons[index]),
-                        ),
+                      IconTheme(
+                        data: IconThemeData(size: 35.0, color: Color(widget.iconsColors[index])),
+                        child: Icon(widget.icons[index]),
+                      ),
                       ),
                       Expanded(
                         child: Container(
@@ -69,7 +69,6 @@ class _CardWithItemsState extends State<CardWithItems> {
                     ],
                   ),
                 );
-
               },
             ),
           ),
