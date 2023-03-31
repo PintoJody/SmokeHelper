@@ -11,7 +11,7 @@ class UpdateResponse {
 }
 
 class UpdateService {
-  static Future<UpdateResponse> update(String id, {String? username, String? password, String? email, String? usernameEmail, UserCigInfo? userCigInfo}) async {
+  static Future<UpdateResponse> update(String id, {String? username, String? password, String? email, String? usernameEmail, UserCigInfo? userCigInfo, String? featuredBadge}) async {
     final url = Uri.parse('https://smokehelperapi.hop.sh/users/$id');
     final request = http.MultipartRequest('PUT', url);
     request.headers['Content-Type'] = 'multipart/form-data';
@@ -32,6 +32,9 @@ class UpdateService {
       final Map<String, String> cigInfoMap = userCigInfo.toMap().map((key, value) => MapEntry(key, value.toString()));
       request.fields['cigInfo'] = json.encode(cigInfoMap);
     }
+    if (featuredBadge != null) {
+      request.fields['featuredBadge'] = featuredBadge;
+    }
 
     try {
       final response = await request.send();
@@ -47,4 +50,6 @@ class UpdateService {
       return UpdateResponse(success: false, data: e.toString());
     }
   }
+
+
 }

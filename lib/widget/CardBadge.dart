@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smoke_helper/widget/ActionButton.dart';
 
 import '../model/BadgeModel.dart';
+import '../service/auth_token_service.dart';
+import '../service/updateUserService.dart';
 import '../theme/theme.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +18,25 @@ class CardBadge extends StatefulWidget {
 }
 
 class _CardBadgeState extends State<CardBadge> {
+  final AuthService _authService = AuthService();
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserId();
+  }
+
+  Future<void> getUserId() async {
+    final id = await _authService.getAuthToken('userId');
+
+    print('ID utilisateur: $id');
+    setState(() {
+      userId = id;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -77,13 +98,18 @@ class _CardBadgeState extends State<CardBadge> {
               ),
             ),
             //TODO Add badge icon to profil picture
-            // if(!widget.isLocked)...[
-            //   Expanded(
-            //     flex: 2,
-            //     child: ActionButton(textButton: "Utiliser",
-            //         fontColor: CustomTheme.bgWhiteColor),
-            //   ),
-            // ]
+            if(!widget.isLocked)...[
+              Expanded(
+                flex: 2,
+                child: ActionButton(
+                  textButton: "Utiliser",
+                  fontColor: CustomTheme.bgWhiteColor,
+                  onPressed: () async {
+                    final response = await UpdateService.update(userId!, featuredBadge: widget.badge.id);
+                  },
+                ),
+              ),
+            ]
           ],
         ),
       ),
