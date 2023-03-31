@@ -42,7 +42,6 @@ class _ProfilViewState extends State<ProfilView> {
     responseData = await json.decode(responseJson.data);
 
     setState(() {
-      print(responseData);
       _isLoading = false;
       _username = responseData["username"];
       _countBadges = responseData["badges"].length;

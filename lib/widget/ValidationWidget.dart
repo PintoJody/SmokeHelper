@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../service/auth_token_service.dart';
+import '../theme/theme.dart';
 
 class ValidationWidget extends StatefulWidget {
   final bool isUserConfirmed;
@@ -65,13 +66,16 @@ class _ValidationWidgetState extends State<ValidationWidget> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(CustomTheme.bgWhiteColor),
+              ),
               onPressed: () {
                 final token = _tokenController.text;
                 if (token.isNotEmpty) {
                   _confirmEmail(token);
                 }
               },
-              child: Text('Confirmer votre email'),
+              child: Text('Confirmez votre email', style: TextStyle(color: CustomTheme.greenColor)),
             ),
           ],
         ),

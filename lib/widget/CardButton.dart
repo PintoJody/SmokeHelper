@@ -6,8 +6,9 @@ class CardButton extends StatefulWidget {
   final String username;
   final String routeName;
   final BuildContext parentContext;
+  final profilePicture;
 
-  const CardButton({required this.username, required this.routeName, required this.parentContext});
+  const CardButton({required this.username, required this.routeName, required this.parentContext, this.profilePicture});
 
   @override
   State<CardButton> createState() => _CardButtonState();
@@ -29,7 +30,12 @@ class _CardButtonState extends State<CardButton> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.verified_user, size: 45),
+                  widget.profilePicture.isEmpty ? Icon(Icons.verified_user, size: 45) :
+                  Image.network(
+                    widget.profilePicture,
+                    width: 60.0,
+                    height: 60.0,
+                  ),
                   const SizedBox(width: 28.0),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

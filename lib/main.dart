@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smoke_helper/theme/theme.dart';
+import 'package:smoke_helper/view/CGUView.dart';
+import 'package:smoke_helper/view/PrivacyView.dart';
 import 'package:smoke_helper/view/bluetoothView.dart';
 import 'package:smoke_helper/view/consumptionView.dart';
 import 'package:smoke_helper/view/logBookFormView.dart';
@@ -56,6 +58,8 @@ class _MyAppState extends State<MyApp> {
         '/ProgressView': (context) => ProgressView(),
         '/ResetPassword': (context) => ResetPassword(),
         '/ResetPasswordToken': (context) => ResetPasswordTokenView(),
+        '/CguView': (context) => CGUView(),
+        '/PrivacyView': (context) => PCView(),
       },
       home: Scaffold(
           backgroundColor: const Color(0xFFF5F1F2),
