@@ -22,6 +22,7 @@ class _SettingViewState extends State<SettingView> {
   final AuthService _authService = AuthService();
   String? userId;
   bool _isLoading = true;
+  String _profilePicture = "";
   String _username = "";
   String _email = "";
 
@@ -50,6 +51,7 @@ class _SettingViewState extends State<SettingView> {
         _isLoading = false;
         _username = responseData["username"];
         _email = responseData["email"];
+        _profilePicture = responseData["featuredBadge"][0]["icon"];
 
         print(_email);
       });
@@ -69,7 +71,7 @@ class _SettingViewState extends State<SettingView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CardButton(username: _username, routeName: "/ProfilView", parentContext: context),
+                    CardButton(username: _username, routeName: "/ProfilView", parentContext: context, profilePicture: _profilePicture),
                     const SizedBox(height: 35.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
