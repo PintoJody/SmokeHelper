@@ -21,6 +21,7 @@ class _ProfilViewState extends State<ProfilView> {
   List<Badge> _badgesVerrouilles = [];
 
   bool _isLoading = true;
+  String _profilePicture = "";
   String _username = "";
   String _createdAt = "";
   int _countBadges = 0;
@@ -41,15 +42,16 @@ class _ProfilViewState extends State<ProfilView> {
     responseData = await json.decode(responseJson.data);
 
     setState(() {
+      print(responseData);
       _isLoading = false;
       _username = responseData["username"];
       _countBadges = responseData["badges"].length;
+      _profilePicture = responseData["featuredBadge"][0]["icon"];
 
       //FORMAT DATETIME
       DateTime date = DateTime.parse(responseData["createdAt"]);
       _createdAt = "${date.day}/${date.month}/${date.year}";
 
-      print(_countBadges);
     });
 
   }
@@ -60,12 +62,11 @@ class _ProfilViewState extends State<ProfilView> {
     Map<String, dynamic> responseData;
     responseData = await json.decode(responseJson.data);
 
-    print(responseData["badges"]);
-
     setState(() {
       _badgesObtenus = responseData["badges"]
           .map<Badge>((badgeJson) =>
           Badge(
+            id: badgeJson['_id'],
             title: badgeJson['title'],
             description: badgeJson['description'],
             unlockDate: DateTime.parse(badgeJson['unlockDate']),
@@ -77,6 +78,7 @@ class _ProfilViewState extends State<ProfilView> {
           .where((badge) => badge['isLock'] == true)
           .map<Badge>((badgeJson) =>
           Badge(
+            id: badgeJson['_id'],
             title: badgeJson['title'],
             description: badgeJson['description'],
             unlockDate: DateTime.parse(badgeJson['unlockDate']),
@@ -111,7 +113,12 @@ class _ProfilViewState extends State<ProfilView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.verified_user, size: 45),
+                              _profilePicture.isEmpty ? Icon(Icons.verified_user, size: 45) :
+                              Image.network(
+                                _profilePicture,
+                                width: 60.0,
+                                height: 60.0,
+                              ),
                               const SizedBox(width: 28.0),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
