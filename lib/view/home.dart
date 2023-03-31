@@ -1,15 +1,72 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:smoke_helper/widget/CardWithItems.dart';
+import 'package:smoke_helper/widget/CardWithBadgesUnlocked.dart';
+import 'package:smoke_helper/widget/CardWithUserInfo.dart';
 import 'package:smoke_helper/widget/imgWithText.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+import '../model/BadgeModel.dart';
+import '../service/getUserBySlug.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
+  bool _isLoading = true;
+  int _countBadges = 0;
+  List<Badge> _badges = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+    _fetchBadges();
+  }
+
+  Future<void> getUserData() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    setState(() {
+      _isLoading = false;
+      _countBadges = responseData["badges"].length;
+
+      print(_countBadges);
+    });
+  }
+
+  Future<void> _fetchBadges() async {
+    final responseJson = await getUserBySlugService().getUser();
+
+    Map<String, dynamic> responseData;
+    responseData = await json.decode(responseJson.data);
+
+    print(responseData["badges"]);
+
+    setState(() {
+      _badges = responseData["badges"]
+          .map<Badge>((badgeJson) =>
+          Badge(
+            title: badgeJson['title'],
+            description: badgeJson['description'],
+            unlockDate: DateTime.parse(badgeJson['unlockDate']),
+            icon: badgeJson['icon'],
+          ))
+          .toList();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
     //Array card Progres
-    //TODO A récupérer dans l'api
     final List<IconData> iconsProgres = [
       Icons.calendar_month,
       Icons.local_fire_department,
@@ -20,7 +77,7 @@ class HomePage extends StatelessWidget {
       '2 mois sans fumer',
       '324 cigarettes évitées',
       '102€ économisés',
-      '3 badges obtenus',
+      '$_countBadges badges obtenus',
     ];
     //TODO voir condition dans CardWithItems car on utilise des icons pour progres mais des images pour les badges
     final List<int> iconsColorsProgres = [
@@ -30,18 +87,7 @@ class HomePage extends StatelessWidget {
       0xFF4ECB71,
     ];
 
-    //Array card Badges
-    //TODO A récupérer dans l'api
-    final List<IconData> iconsBadges = [
-      Icons.star,
-      Icons.show_chart,
-    ];
-    final List<String> descriptionsBadges = [
-      '1 mois sans fumer',
-      'A gagner 10 places dans le classement',
-    ];
-
-    return SingleChildScrollView(
+    return _isLoading ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 25.0, left: 9, right: 9),
         child: Column(
@@ -52,18 +98,20 @@ class HomePage extends StatelessWidget {
                 detail: '2m 12j 5h'
             ),
             const SizedBox(height: 40.0),
-            CardWithItems(
+            CardWithUserInfo(
               title: 'Mes Progrès',
               icons: iconsProgres,
               descriptions: descriptionsProgres,
               iconsColors: iconsColorsProgres,
             ),
             const SizedBox(height: 40.0),
-            CardWithItems(
-              title: 'Mes Badges',
-              icons: iconsBadges,
-              descriptions: descriptionsBadges,
-              iconsColors: iconsColorsProgres,
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: _badges.length,
+              itemBuilder: (context, index) {
+                final badge = _badges[index];
+                return CardWithBadges(title: 'Mes Badges', badge: badge);
+              },
             ),
             const SizedBox(height: 40.0),
           ],
@@ -72,3 +120,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
