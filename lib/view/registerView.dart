@@ -172,9 +172,18 @@ class _RegisterView extends State<RegisterView> {
                         });
                       },
                     ),
-                    const Text(
-                      'J’accepte les conditions générales d’autorisation.',
-                      style: TextStyle(fontSize: 10.0, color: CustomTheme.bgWhiteColor),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/CguView');
+                      },
+                      child: const Text(
+                        'J’accepte les conditions générales d’autorisation.',
+                        style: TextStyle(
+                          color: CustomTheme.bgWhiteColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10.0
+                        ),
+                      ),
                     ),
                   ],
                 ),

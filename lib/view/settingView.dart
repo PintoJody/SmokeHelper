@@ -96,14 +96,14 @@ class _SettingViewState extends State<SettingView> {
                           InkWell(
                             child: const Text("Condition générales d’utilisation", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
                             onTap: (){
-                              //TODO lien vers les conditions générales
+                              Navigator.pushNamed(context, '/CguView');
                             },
                           ),
                           const SizedBox(height: 20.0),
                           InkWell(
                             child: const Text("Politique de confidentialité", style: TextStyle(color: CustomTheme.greyColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
                             onTap: (){
-                              //TODO lien vers Politique de confidentialité
+                              Navigator.pushNamed(context, '/PrivacyView');
                             },
                           ),
                           const SizedBox(height: 35.0),

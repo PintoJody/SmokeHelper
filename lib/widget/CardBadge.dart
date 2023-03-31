@@ -106,6 +106,9 @@ class _CardBadgeState extends State<CardBadge> {
                   fontColor: CustomTheme.bgWhiteColor,
                   onPressed: () async {
                     final response = await UpdateService.update(userId!, featuredBadge: widget.badge.id);
+                    setState(() {
+
+                    });
                   },
                 ),
               ),
