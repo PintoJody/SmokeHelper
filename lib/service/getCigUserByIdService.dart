@@ -34,4 +34,25 @@ class CigUserService {
       return GetResponse(success: false, data: e.toString());
     }
   }
+
+  static Future<GetResponse> getLastCig() async {
+    final AuthService _authService = AuthService();
+    final userId = await _authService.getAuthToken('userId');
+    final url = Uri.parse('https://smokehelperapi.hop.sh/cigarettes/getLast/$userId');
+    final request = http.MultipartRequest('GET', url);
+
+    try {
+      final response = await request.send();
+      final responseData = await response.stream.transform(utf8.decoder).join();
+
+      if (response.statusCode == 200) {
+        return GetResponse(success: true, data: responseData);
+      } else {
+        return GetResponse(success: false, data: responseData);
+      }
+    } catch (e) {
+      print("Erreur lors de la connexion au serveur : $e");
+      return GetResponse(success: false, data: e.toString());
+    }
+  }
 }
